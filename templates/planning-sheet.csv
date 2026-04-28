@@ -1,0 +1,5 @@
+Type,ID,Title,Parent,Complexity,PRD Trace,Depends On,Notes
+Epic,E01,<epic-title>,,,,,
+Feature,F01.01,<feature-title>,E01,,,,
+Story,S01.01.01,<story-title>,F01.01,M,FR-01,,
+Task,T01.01.01.01,<task-title>,S01.01.01,,,,
