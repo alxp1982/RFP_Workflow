@@ -4,6 +4,28 @@ A no-code, zero-setup collection of **AI assistant skills** for analyzing RFPs
 and generating delivery artifacts. Works directly inside **GitHub Copilot**,
 **Cursor**, and **Claude Code** -- no CLI, no service, no dependencies.
 
+## Install with Skillfish
+
+This repository is compatible with [skillfish](https://github.com/knoxgraeme/skillfish), the skill manager for AI coding agents.
+
+Install the orchestrator skill:
+
+```bash
+skillfish add alxp1982/RFP_Workflow rfp-agentic-orchestrator
+```
+
+Install the umbrella workflow skill:
+
+```bash
+skillfish add alxp1982/RFP_Workflow rfp-workflow
+```
+
+Install all available skills from this repository:
+
+```bash
+skillfish add alxp1982/RFP_Workflow --all
+```
+
 ## Install with GitHub CLI skills
 
 This repository is compatible with `gh skill install` via the standard

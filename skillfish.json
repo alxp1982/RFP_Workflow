@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "skills": [
+    "alxp1982/RFP_Workflow/skills/rfp-agentic-orchestrator",
+    "alxp1982/RFP_Workflow/skills/rfp-clarify",
+    "alxp1982/RFP_Workflow/skills/rfp-decompose",
+    "alxp1982/RFP_Workflow/skills/rfp-export",
+    "alxp1982/RFP_Workflow/skills/rfp-ingest",
+    "alxp1982/RFP_Workflow/skills/rfp-prd-draft",
+    "alxp1982/RFP_Workflow/skills/rfp-prd-refine",
+    "alxp1982/RFP_Workflow/skills/rfp-stories",
+    "alxp1982/RFP_Workflow/skills/rfp-workflow"
+  ]
+}
