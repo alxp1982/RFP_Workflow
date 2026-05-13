@@ -1,17 +1,17 @@
 ---
-name: rfp-prd-draft
+name: rfp-draft-prd
 description: Generate a complete Product Requirements Document from normalized requirements and a clarification report. Includes proposed-solution infographics (via GenerateImage or Mermaid) and preserves FR/NFR traceability.
 ---
 
-# Skill 03 - PRD Draft
+# Draft PRD — from requirements & clarifications
 
 ## Purpose
 Generate a full Product Requirements Document from normalized requirements and
 the clarification report.
 
 ## Inputs
-- Normalized requirements from **rfp-ingest**.
-- Clarification report from **rfp-clarify**.
+- Normalized requirements from **rfp-normalize-rfp**.
+- Clarification report from **rfp-clarification-pass**.
 - Optional: PRD template file (`#file:templates/prd.md`).
 - Image-generation skill `nano-banana` (use it when available in the environment).
 
@@ -25,11 +25,13 @@ Using the requirements and clarifications provided:
 3. List all open questions in the Open Questions section.
 4. Keep scope crisp -- do not expand beyond stated requirements.
 5. Each requirement in the Scope section must be traceable to an FR/NFR from
-   the ingest output (use the FR-/NFR- IDs).
+   the normalized requirements output (use the FR-/NFR- IDs).
 6. Write in plain, imperative language.
 7. You MUST generate proposed-solution infographics and reference them in the PRD using whatever tools are available (e.g. GenerateImage tool, Mermaid diagrams, etc.).
 
 ## Infographic generation rules
+
+*Note: Infographic generation is a complex task. Ensure you are using the most capable model available (as approved by the user at **checkpoint B** of the full workflow) before attempting to generate these visuals, so this step is not ignored or abandoned.*
 
 - Generate visual assets only for the **proposed solution**, not decorative art.
 - Prefer 1-3 visuals maximum:
@@ -85,5 +87,5 @@ Key sections that must be present:
 - Changelog
 
 ## Next step
-- If clarification answers are available: go to **rfp-prd-refine**.
-- Otherwise: go to **rfp-decompose**.
+- If clarification answers are available: go to **rfp-refine-prd**.
+- Otherwise: go to **rfp-task-breakdown**.

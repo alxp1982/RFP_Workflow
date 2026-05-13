@@ -1,9 +1,9 @@
 ---
-name: rfp-decompose
+name: rfp-task-breakdown
 description: Decompose a finalized PRD into a hierarchical technical implementation plan using the fixed hierarchy Epic -> Feature -> Story -> Task, with complexity estimates, dependencies, and PRD traceability.
 ---
 
-# Skill 05 - Decompose
+# Task breakdown — Epic → Feature → Story → Task
 
 ## Purpose
 Decompose the PRD into a detailed, hierarchical technical implementation plan
@@ -58,4 +58,4 @@ Task,T01.01.01.01,...,S01.01.01,...
 ```
 
 ## Next step
-Go to **rfp-stories**.
+Go to **rfp-user-stories**.

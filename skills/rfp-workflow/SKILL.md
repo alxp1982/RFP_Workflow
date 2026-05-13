@@ -1,26 +1,27 @@
 ---
 name: rfp-workflow
-description: End-to-end RFP parsing and Product Requirements Document (PRD) generation workflow. Converts raw RFP text into PRDs, task breakdowns, and user stories.
+description: Entry point for this repo. Tells the agent to run the full RFP pipeline via **`rfp-full-workflow`**: normalize → clarify → PRD → backlog → stories → optional sync to trackers, with human checkpoints.
 ---
 
-# RFP Workflow
+# RFP workflow (repo entry)
 
-This skill coordinates the full RFP workflow and delegates execution to the
-orchestrator skill.
+This skill points to the **full pipeline** skill and does not define a separate
+chain.
 
 ## Execution Trigger
 
 When a user asks to "run the RFP workflow", "process an RFP", or refers to
-this repository as a skill, immediately invoke the agentic orchestrator.
+this repository as a skill, immediately invoke the **full workflow** skill.
 
 ## Instructions for the AI Agent
 
 To execute the workflow, read and follow:
-`skills/rfp-agentic-orchestrator/SKILL.md`
+`skills/rfp-full-workflow/SKILL.md`
 
 You should:
-1. Treat `skills/rfp-agentic-orchestrator/SKILL.md` as the main entry point.
+1. Treat `skills/rfp-full-workflow/SKILL.md` as the main entry point.
 2. Read the user's provided RFP text or file.
-3. Automatically execute all stages (`rfp-ingest` -> `rfp-clarify` ->
-   `rfp-prd-draft` -> `rfp-decompose` -> `rfp-stories`) pausing only at the
+3. Start with the **Planning summary** from the full workflow skill (planning-mode style),
+   then automatically execute all stages (`rfp-normalize-rfp` -> `rfp-clarification-pass` ->
+   `rfp-draft-prd` -> `rfp-task-breakdown` -> `rfp-user-stories`) pausing only at the
    defined human-in-the-loop checkpoints.

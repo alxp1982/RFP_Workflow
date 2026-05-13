@@ -1,9 +1,9 @@
 ---
-name: rfp-stories
+name: rfp-user-stories
 description: Generate Gherkin-style acceptance stories (user story, scenario, acceptance criteria) for every Story in the task breakdown, ready for export to GitHub Projects or Jira.
 ---
 
-# Skill 06 - Stories
+# User stories — Gherkin acceptance criteria
 
 ## Purpose
 Generate Gherkin-style acceptance stories for every Story in the task
@@ -66,7 +66,7 @@ Feature: <feature title>
 ---
 ```
 
-Also produce an export block at the end (see **rfp-export** for destinations).
+Also produce an export block at the end (see **rfp-sync-trackers** for destinations).
 
 ## Next step
-Go to **rfp-export** to push stories to GitHub Projects, Jira, or Google Sheets.
+Go to **rfp-sync-trackers** to push stories to GitHub Projects, Jira, or Google Sheets.

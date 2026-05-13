@@ -14,7 +14,7 @@
 - **Project:** target GitHub Project board
 
 ## Via GitHub MCP
-Use the instructions in `.agent/skills/rfp-export/skill.md` (Export B).
+Use the instructions in `.agent/skills/rfp-sync-trackers/skill.md` (Export B).
 
 ## Manually
 Ask your AI assistant:

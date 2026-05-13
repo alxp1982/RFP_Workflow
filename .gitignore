@@ -1,1 +1,14 @@
 outputs/
+
+# Local secrets (never commit)
+.env
+.env.local
+.env.*.local
+
+# Python eval harness
+.venv/
+.venv-*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.deepeval/

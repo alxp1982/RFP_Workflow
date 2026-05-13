@@ -3,25 +3,25 @@
 This workspace contains a set of AI skills for analyzing RFPs and producing
 delivery artifacts.
 
-Default mode: use the single orchestrator skill for an end-to-end run with
+Default mode: use the **full workflow** skill for an end-to-end run with
 human-in-the-loop checkpoints.
 
-## One-shot agentic mode (recommended)
+## One-shot full pipeline (recommended)
 
-Use: #file:../.agent/skills/rfp-agentic-orchestrator/skill.md
+Use: #file:../.agent/skills/rfp-full-workflow/skill.md
 
-The orchestrator automatically runs all stages and pauses only at key review
-checkpoints (clarifications, PRD, decomposition, export).
+The full workflow skill automatically runs all stages and pauses only at key review
+checkpoints (clarifications, infographic model, PRD, task breakdown, export sync).
 
 ## Workflow
 
-1. Ingest requirements: #file:../.agent/skills/rfp-ingest/skill.md
-2. Clarify (mandatory, non-blocking): #file:../.agent/skills/rfp-clarify/skill.md
-3. Draft PRD: #file:../.agent/skills/rfp-prd-draft/skill.md
-4. Refine PRD (if answers available): #file:../.agent/skills/rfp-prd-refine/skill.md
-5. Decompose tasks: #file:../.agent/skills/rfp-decompose/skill.md
-6. Generate stories: #file:../.agent/skills/rfp-stories/skill.md
-7. Export: #file:../.agent/skills/rfp-export/skill.md
+1. Normalize requirements: #file:../.agent/skills/rfp-normalize-rfp/skill.md
+2. Clarify (mandatory, non-blocking): #file:../.agent/skills/rfp-clarification-pass/skill.md
+3. Draft PRD: #file:../.agent/skills/rfp-draft-prd/skill.md
+4. Refine PRD (if answers available): #file:../.agent/skills/rfp-refine-prd/skill.md
+5. Task breakdown: #file:../.agent/skills/rfp-task-breakdown/skill.md
+6. User stories: #file:../.agent/skills/rfp-user-stories/skill.md
+7. Sync to trackers: #file:../.agent/skills/rfp-sync-trackers/skill.md
 
 ## Defaults
 - Clarifications: always run, non-blocking, produce assumptions.
@@ -36,7 +36,7 @@ checkpoints (clarifications, PRD, decomposition, export).
 
 ## Quick start
 ```
-Use #file:../.agent/skills/rfp-agentic-orchestrator/skill.md
+Use #file:../.agent/skills/rfp-full-workflow/skill.md
 
 [paste RFP text here]
 ```

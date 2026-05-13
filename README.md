@@ -1,17 +1,17 @@
 # RFP Workflow Skills
 
 A no-code, zero-setup collection of **AI assistant skills** for analyzing RFPs
-and generating delivery artifacts. Works directly inside **GitHub Copilot**,
-**Cursor**, and **Claude Code** -- no CLI, no service, no dependencies.
+and generating delivery artifacts. Use the skills **inside** GitHub Copilot,
+**Cursor**, and **Claude Code** with no hosted service or extra runtime.
 
 ## Install with Skillfish
 
 This repository is compatible with [skillfish](https://github.com/knoxgraeme/skillfish), the skill manager for AI coding agents.
 
-Install the orchestrator skill:
+Install the full pipeline skill:
 
 ```bash
-skillfish add alxp1982/RFP_Workflow rfp-agentic-orchestrator
+skillfish add alxp1982/RFP_Workflow rfp-full-workflow
 ```
 
 Install the umbrella workflow skill:
@@ -26,6 +26,45 @@ Install all available skills from this repository:
 skillfish add alxp1982/RFP_Workflow --all
 ```
 
+## Install with `npx skills` (skills.sh / Vercel skills CLI)
+
+This repository matches the [open agent skills](https://agentskills.io) layout (`skills/<name>/SKILL.md`), so it installs with the official **[skills](https://github.com/vercel-labs/skills)** CLI ([docs](https://skills.sh/docs)).
+
+[![skills.sh](https://skills.sh/b/alxp1982/RFP_Workflow)](https://skills.sh/alxp1982/RFP_Workflow)
+
+List skills without installing:
+
+```bash
+npx skills add alxp1982/RFP_Workflow --list
+```
+
+Install the full pipeline skill (pick agents interactively, or pin e.g. Cursor + Claude Code):
+
+```bash
+npx skills add alxp1982/RFP_Workflow --skill rfp-full-workflow -a cursor -a claude-code -y
+```
+
+Install the umbrella workflow skill:
+
+```bash
+npx skills add alxp1982/RFP_Workflow --skill rfp-workflow -a cursor -y
+```
+
+Install **every** skill from this repo (non-interactive):
+
+```bash
+npx skills add alxp1982/RFP_Workflow --skill '*' -y
+```
+
+From a local clone (same as published GitHub layout):
+
+```bash
+npx skills add . --list
+npx skills add . --skill rfp-full-workflow -y
+```
+
+The CLI writes into each agent’s configured skills directory (for example **Cursor** uses the paths described under [Supported agents](https://github.com/vercel-labs/skills#supported-agents)). This repo also keeps **`skills/`** as the canonical copy and documents symlinks for other layouts in **Multi-agent scaffold compatibility** below.
+
 ## Install with GitHub CLI skills
 
 This repository is compatible with `gh skill install` via the standard
@@ -36,10 +75,10 @@ References:
 - GitHub CLI `gh skill install` docs: `https://cli.github.com/manual/gh_skill_install`
 - Agent Skills specification (SKILL.md format): `https://agentskills.io/specification`
 
-Install the orchestrator skill:
+Install the full pipeline skill:
 
 ```bash
-gh skill install alxp1982/RFP_Workflow rfp-agentic-orchestrator
+gh skill install alxp1982/RFP_Workflow rfp-full-workflow
 ```
 
 Install the umbrella workflow skill:
@@ -63,13 +102,14 @@ directories are symlinked to `skills/`:
 - `.cursor/skills`
 - `.github/skills`
 
-## Recommended mode: single agentic run
+## Recommended mode: full pipeline (one shot)
 
-Use one orchestrator skill to execute the full chain with human-in-the-loop
-checkpoints:
+Use the **full pipeline** skill (`rfp-full-workflow`) to execute the full chain with human-in-the-loop
+checkpoints. It starts with a **Planning summary** (goals, pipeline,
+checkpoints, risks) for alignment—similar to planning mode—then runs the stages.
 
 ```text
-Use #file:skills/rfp-agentic-orchestrator/SKILL.md
+Use #file:skills/rfp-full-workflow/SKILL.md
 
 Input: [paste RFP text or #file:path]
 PRD target: local-md | google-sheets | <mcp-target>
@@ -89,7 +129,7 @@ Paste raw client requirements and run the skills in sequence to produce:
 | Refined PRD (after answering questions) | `outputs/prd.md` (overwrite) |
 | Technical task decomposition | `outputs/task-breakdown.md` |
 | Gherkin stories with acceptance criteria | `outputs/stories.md` |
-| Export to Google Sheets / GitHub / Jira | via export skill |
+| Export to Google Sheets / GitHub / Jira | via `rfp-sync-trackers` skill |
 
 ## Skills pipeline
 
@@ -97,25 +137,25 @@ Paste raw client requirements and run the skills in sequence to produce:
 RFP input (file or text)
        |
        v
-rfp-ingest      -> normalize requirements
+rfp-normalize-rfp      -> normalize requirements
        |
        v
-rfp-clarify     -> assumptions + open questions (non-blocking)
+rfp-clarification-pass     -> assumptions + open questions (non-blocking)
        |
        v
-rfp-prd-draft   -> full PRD markdown
+rfp-draft-prd   -> full PRD markdown
        |
        v
-rfp-prd-refine  -> refined PRD after answering questions  (optional)
+rfp-refine-prd  -> refined PRD after answering questions  (optional)
        |
        v
-rfp-decompose   -> Epic -> Feature -> Story -> Task hierarchy
+rfp-task-breakdown   -> Epic -> Feature -> Story -> Task hierarchy
        |
        v
-rfp-stories     -> Gherkin-style stories + acceptance criteria
+rfp-user-stories     -> Gherkin-style stories + acceptance criteria
        |
        v
-rfp-export      -> Google Sheets / GitHub Projects / Jira
+rfp-sync-trackers      -> Google Sheets / GitHub Projects / Jira
 ```
 
 ## How to use from your AI tool
@@ -125,7 +165,7 @@ rfp-export      -> Google Sheets / GitHub Projects / Jira
 Reference a skill file in Copilot Chat and provide your input:
 
 ```
-Use #file:skills/rfp-prd-draft/SKILL.md
+Use #file:skills/rfp-draft-prd/SKILL.md
 
 Requirements:
 [paste RFP text here]
@@ -149,7 +189,7 @@ Or open any skill file and use Cmd+L to chat against it directly.
 Reference the installable skill path directly:
 
 ```
-Run #file:skills/rfp-prd-draft/SKILL.md on: [paste RFP text or reference a file]
+Run #file:skills/rfp-draft-prd/SKILL.md on: [paste RFP text or reference a file]
 ```
 
 ### Generic (any AI chat)
@@ -161,15 +201,15 @@ append your requirements text.
 
 ```
 skills/
-  rfp-workflow/SKILL.md                Umbrella entrypoint for workflow runs
-  rfp-agentic-orchestrator/SKILL.md    One-shot end-to-end orchestrator (HITL)
-  rfp-ingest/SKILL.md                  Normalize raw RFP input
-  rfp-clarify/SKILL.md                 Mandatory non-blocking clarification pass
-  rfp-prd-draft/SKILL.md               Generate PRD
-  rfp-prd-refine/SKILL.md              Refine PRD with answered questions
-  rfp-decompose/SKILL.md               Decompose into task hierarchy
-  rfp-stories/SKILL.md                 Generate Gherkin stories
-  rfp-export/SKILL.md                  Export to external trackers
+  rfp-workflow/SKILL.md                Repo entry — points at full pipeline skill
+  rfp-full-workflow/SKILL.md           One-shot pipeline with human checkpoints
+  rfp-normalize-rfp/SKILL.md           Turn raw RFP into structured requirements
+  rfp-clarification-pass/SKILL.md      Questions + assumptions (non-blocking)
+  rfp-draft-prd/SKILL.md               Write PRD from requirements
+  rfp-refine-prd/SKILL.md              Update PRD after clarification answers
+  rfp-task-breakdown/SKILL.md          Epic → Feature → Story → Task plan
+  rfp-user-stories/SKILL.md            Gherkin-style acceptance stories
+  rfp-sync-trackers/SKILL.md           Push artifacts to Sheets / GitHub / Jira
 
 templates/
   prd.md                     Canonical PRD template

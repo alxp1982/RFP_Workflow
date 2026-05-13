@@ -1,9 +1,9 @@
 ---
-name: rfp-ingest
+name: rfp-normalize-rfp
 description: Parse raw RFP input (pasted text or a file like rfp.pdf / rfp.md) into a structured, normalized requirements summary covering functional requirements, non-functional requirements, stakeholders, and constraints. Use as the first step of the RFP workflow.
 ---
 
-# Skill 01 - Ingest
+# Normalize RFP — structured requirements
 
 ## Purpose
 Parse and normalize raw RFP input (document or text) into a structured
@@ -52,4 +52,4 @@ Rules:
 ```
 
 ## Next step
-Pass the output of this skill to **rfp-clarify**.
+Pass the output of this skill to **rfp-clarification-pass**.

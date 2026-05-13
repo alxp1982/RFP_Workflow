@@ -1,15 +1,15 @@
 ---
-name: rfp-prd-refine
+name: rfp-refine-prd
 description: Refine an existing PRD draft by incorporating answers to clarification questions. Updates scope, assumptions, and open questions while preserving FR/NFR traceability IDs.
 ---
 
-# Skill 04 - PRD Refine
+# Refine PRD — merge clarification answers
 
 ## Purpose
 Refine the PRD draft by incorporating answers to clarification questions.
 
 ## Inputs
-- PRD draft from **rfp-prd-draft** (paste or `#file:outputs/prd.md`).
+- PRD draft from **rfp-draft-prd** (paste or `#file:outputs/prd.md`).
 - Answered clarification questions (paste answers directly).
 
 ## Instructions
@@ -34,4 +34,4 @@ Add at the top:
 ```
 
 ## Next step
-Go to **rfp-decompose**.
+Go to **rfp-task-breakdown**.

@@ -9,14 +9,17 @@ alwaysApply: true
 This workspace contains prompt-based skills for transforming raw RFP input into
 PRDs, task breakdowns, and Gherkin stories.
 
-Default mode: run the orchestrator skill once and let it execute the chain.
+Default mode: run the **full workflow** skill once and let it execute the chain.
+The skill opens with a **Planning summary** (planning-style kickoff),
+then runs the pipeline and pauses only at human checkpoints (clarifications, PRD,
+decomposition, export).
 
 ## Workflow order
-rfp-ingest -> rfp-clarify -> rfp-prd-draft -> [rfp-prd-refine] -> rfp-decompose -> rfp-stories -> rfp-export
+rfp-normalize-rfp -> rfp-clarification-pass -> rfp-draft-prd -> [rfp-refine-prd] -> rfp-task-breakdown -> rfp-user-stories -> rfp-sync-trackers
 
 ## One-shot execution (recommended)
-Use @.agent/skills/rfp-agentic-orchestrator/skill.md with your input RFP.
-The orchestrator pauses only at human checkpoints (clarifications, PRD,
+Use @.agent/skills/rfp-full-workflow/skill.md with your input RFP.
+The full workflow skill emits a **Planning summary** first, then pauses only at human checkpoints (clarifications, infographic model, PRD,
 decomposition, export).
 
 ## Fixed rules
@@ -27,11 +30,11 @@ decomposition, export).
 - Use templates from the `templates/` directory.
 
 ## How to invoke a skill
-Open the skill file (e.g. `.agent/skills/rfp-prd-draft/skill.md`) then press Cmd+L and
+Open the skill file (e.g. `.agent/skills/rfp-draft-prd/skill.md`) then press Cmd+L and
 say: "Run this skill with the following input: [paste text]"
 
 Or in chat, reference the skill file directly:
-"Use @.agent/skills/rfp-prd-draft/skill.md and apply it to: [paste text]"
+"Use @.agent/skills/rfp-draft-prd/skill.md and apply it to: [paste text]"
 
 ## Export targets
 - Google Sheets: task-breakdown CSV block via Sheets MCP or manual import.

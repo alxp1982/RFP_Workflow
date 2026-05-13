@@ -12,7 +12,7 @@
 - **Epic Link:** parent Epic summary
 
 ## Via Jira MCP
-Use the instructions in `.agent/skills/rfp-export/skill.md` (Export C).
+Use the instructions in `.agent/skills/rfp-sync-trackers/skill.md` (Export C).
 
 ## Manually (CSV import)
 Ask your AI assistant:

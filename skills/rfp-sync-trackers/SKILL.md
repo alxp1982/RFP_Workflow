@@ -1,9 +1,9 @@
 ---
-name: rfp-export
+name: rfp-sync-trackers
 description: Export generated RFP artifacts (task breakdown, planning sheet, stories) to external destinations - Google Sheets, GitHub Projects, or Jira - via the appropriate MCP connector or the gh CLI.
 ---
 
-# Skill 07 - Export
+# Sync trackers — Sheets, GitHub, Jira
 
 ## Purpose
 Export generated artifacts to external destinations:

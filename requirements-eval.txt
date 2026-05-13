@@ -1,0 +1,5 @@
+# Optional: LLM-as-judge evals for RFP workflow artifacts (DeepEval).
+# Install: pip install -r requirements-eval.txt
+deepeval>=3.9.9,<5
+pytest>=8.0
+anthropic>=0.40

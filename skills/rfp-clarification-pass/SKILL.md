@@ -1,9 +1,9 @@
 ---
-name: rfp-clarify
+name: rfp-clarification-pass
 description: Run a mandatory, non-blocking clarification pass on normalized RFP requirements. Produces clarification questions, working assumptions, and open questions without halting the workflow.
 ---
 
-# Skill 02 - Clarify
+# Clarification pass — questions & assumptions
 
 ## Purpose
 Run a mandatory, non-blocking clarification pass on normalized requirements.
@@ -11,7 +11,7 @@ Always produces a clarification report even if input is unambiguous.
 Never halts the workflow -- all findings become assumptions or open questions.
 
 ## Inputs
-- Normalized requirements from **rfp-ingest** (paste or `#file:`).
+- Normalized requirements from **rfp-normalize-rfp** (paste or `#file:`).
 
 ## Instructions
 
@@ -51,5 +51,5 @@ Save as `outputs/clarifications.md`:
 ```
 
 ## Next step
-Pass this output (along with normalized requirements) to **rfp-prd-draft**.
-If clarification answers are collected, skip to **rfp-prd-refine** instead.
+Pass this output (along with normalized requirements) to **rfp-draft-prd**.
+If clarification answers are collected, skip to **rfp-refine-prd** instead.
