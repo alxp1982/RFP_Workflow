@@ -1,6 +1,6 @@
 ---
 name: rfp-draft-prd
-description: Generate a complete Product Requirements Document from normalized requirements and a clarification report. Includes proposed-solution infographics (via GenerateImage or Mermaid) and preserves FR/NFR traceability.
+description: Generate a complete Product Requirements Document from normalized requirements and a clarification report. Includes proposed-solution infographics (via GenerateImage or Mermaid), preserves FR/NFR traceability, and emits `prd.spec.yaml`, `spec-digest.md`, and `spec-changelog.md`.
 ---
 
 # Draft PRD — from requirements & clarifications
@@ -28,6 +28,7 @@ Using the requirements and clarifications provided:
    the normalized requirements output (use the FR-/NFR- IDs).
 6. Write in plain, imperative language.
 7. You MUST generate proposed-solution infographics and reference them in the PRD using whatever tools are available (e.g. GenerateImage tool, Mermaid diagrams, etc.).
+8. **Machine spec & digest (required):** After `outputs/prd.md` is complete, emit aligned companion files in the same step (see **Structured outputs** below). YAML must mirror every **FR-** / **NFR-** id used in the markdown PRD.
 
 ## Infographic generation rules
 
@@ -70,6 +71,25 @@ If no image generation tools or diagramming tools are available at all:
 - Do not block PRD generation.
 - Insert placeholders describing the recommended visuals to create later.
 
+## Structured outputs (required)
+
+In addition to `outputs/prd.md`, you **must** write:
+
+1. **`outputs/prd.spec.yaml`** — Canonical YAML for agents. **Shape:** follow
+   `templates/prd.spec.yaml` and the field definitions in **`docs/spec-schema.md`**.
+   - `requirements.functional` / `requirements.nonfunctional`: one object per **FR-** / **NFR-**
+     id in the markdown PRD (same ids, titles aligned; `acceptance` bullets where useful).
+   - `scope.in_scope` / `scope.out_of_scope`: short strings distilled from the PRD.
+   - `assumptions` / `open_questions`: lists of strings aligned with the PRD sections.
+
+2. **`outputs/spec-digest.md`** — Short default agent context (~1–2 minute read). Use
+   section headings from **`templates/spec-digest.md`**. Fill from the PRD only (no
+   full PRD paste). Must include a **Requirement ID index** (group or list FR/NFR ranges).
+
+3. **`outputs/spec-changelog.md`** — Seed the log **newest first** under `## Log` using
+   the pattern in **`templates/spec-changelog.md`**: first entry documents initial
+   baseline (`prd.md`, `prd.spec.yaml`, `spec-digest.md` created).
+
 ## Output format
 
 Save as `outputs/prd.md`. Use the template at `templates/prd.md`.
@@ -87,5 +107,6 @@ Key sections that must be present:
 - Changelog
 
 ## Next step
-- If clarification answers are available: go to **rfp-refine-prd**.
-- Otherwise: go to **rfp-task-breakdown**.
+- If clarification answers are available: go to **rfp-refine-prd** (it will refresh
+  `prd.spec.yaml`, `spec-digest.md`, and append `spec-changelog.md`).
+- Otherwise: go to **rfp-task-breakdown** (structured PRD files are already written).

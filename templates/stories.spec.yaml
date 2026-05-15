@@ -1,0 +1,23 @@
+# Skeleton: copy shape to outputs/stories.spec.yaml and fill from outputs/stories.md + task breakdown.
+# Schema: docs/spec-schema.md
+spec_version: 1
+meta:
+  product_name: ""
+  updated_at: "YYYY-MM-DD"
+  source: rfp-workflow
+
+stories: []
+# - id: S01.01.01
+#   title: ""
+#   epic_id: E01
+#   persona: ""
+#   user_story: ""
+#   prd_trace: [FR-01]
+#   complexity: M
+#   scenarios:
+#     - name: ""
+#       kind: happy
+#       given: []
+#       when: []
+#       then: []
+#   acceptance_criteria: []

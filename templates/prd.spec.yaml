@@ -1,0 +1,26 @@
+# Skeleton: copy shape to outputs/prd.spec.yaml and fill from outputs/prd.md.
+# Schema: docs/spec-schema.md
+spec_version: 1
+meta:
+  product_name: ""
+  prd_status: draft
+  updated_at: "YYYY-MM-DD"
+  source: rfp-workflow
+
+scope:
+  in_scope: []
+  out_of_scope: []
+
+requirements:
+  functional: []
+  # - id: FR-01
+  #   title: ""
+  #   priority: ""
+  #   acceptance: []
+  nonfunctional: []
+  # - id: NFR-01
+  #   title: ""
+  #   metric: ""
+
+assumptions: []
+open_questions: []

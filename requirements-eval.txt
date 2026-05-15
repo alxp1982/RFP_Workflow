@@ -3,3 +3,5 @@
 deepeval>=3.9.9,<5
 pytest>=8.0
 anthropic>=0.40
+PyYAML>=6.0
+python-dotenv>=1.0

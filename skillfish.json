@@ -2,6 +2,7 @@
   "version": 1,
   "skills": [
     "alxp1982/RFP_Workflow/skills/rfp-full-workflow",
+    "alxp1982/RFP_Workflow/skills/rfp-bootstrap-repo",
     "alxp1982/RFP_Workflow/skills/rfp-clarification-pass",
     "alxp1982/RFP_Workflow/skills/rfp-task-breakdown",
     "alxp1982/RFP_Workflow/skills/rfp-sync-trackers",

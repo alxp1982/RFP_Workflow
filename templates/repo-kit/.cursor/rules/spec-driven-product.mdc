@@ -1,0 +1,40 @@
+---
+description: Spec-driven product development — use spec/ as source of truth for backlog, PRD, and YAML machine specs
+globs: ["spec/**", "AGENTS.md"]
+alwaysApply: true
+---
+
+# Spec-driven product repo
+
+This repository was bootstrapped with **`spec/`** as the canonical place for
+product requirements, backlog, and acceptance stories.
+
+## Machine-readable specs
+
+When **`spec/prd.spec.yaml`** and **`spec/stories.spec.yaml`** are present, agents
+should prefer them for **id lists, traceability, and structured scenarios**, and use
+markdown (`prd.md`, `stories.md`) for narrative review and stakeholder wording.
+
+## Before coding
+
+1. Read **`spec/digest.md`** for a short, current picture of scope and ids.
+2. Use **Story ids** and **FR/NFR ids** from YAML or markdown consistently.
+3. Follow **Epic → Feature → Story → Task** from `spec/task-breakdown.md` without renaming levels.
+
+## Artifacts
+
+- **`spec/prd.spec.yaml`** / **`spec/stories.spec.yaml`** — compact structured specs (see upstream `docs/spec-schema.md` in the RFP workflow repo if copied).
+- **`spec/prd.md`** — full PRD (human review, detailed requirements).
+- **`spec/stories.md`** — user stories and Gherkin for testing and delivery.
+- **`spec/task-breakdown.md`** — implementation planning hierarchy.
+- **`spec/clarifications.md`** — questions, assumptions, and clarification history.
+- **`spec/planning-sheet.csv`** — planning / estimates export.
+- **`spec/CHANGELOG.md`** — append-only log of spec changes (keep in sync when PRD shifts).
+
+## Agent discipline
+
+- Prefer **targeted excerpts** (by id or heading) over pasting entire files each turn.
+- When the PRD or stories change, update **`spec/digest.md`** and append **`spec/CHANGELOG.md`**.
+- Do not invent scope beyond **`spec/prd.md`** / **`spec/prd.spec.yaml`** without an explicit change request.
+
+See **`AGENTS.md`** for cross-tool guidance. **Claude Code** loads **`CLAUDE.md`** and **`.claude/skills/`**; **GitHub Copilot** uses **`.github/copilot-instructions.md`** in addition to **`AGENTS.md`**.

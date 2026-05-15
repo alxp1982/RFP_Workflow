@@ -21,18 +21,24 @@ checkpoints (clarifications, infographic model, PRD, task breakdown, export sync
 4. Refine PRD (if answers available): #file:../.agent/skills/rfp-refine-prd/skill.md
 5. Task breakdown: #file:../.agent/skills/rfp-task-breakdown/skill.md
 6. User stories: #file:../.agent/skills/rfp-user-stories/skill.md
-7. Sync to trackers: #file:../.agent/skills/rfp-sync-trackers/skill.md
+7. Bootstrap product repo kit (`outputs/repo-kit/`): #file:../skills/rfp-bootstrap-repo/SKILL.md
+8. Sync to trackers: #file:../.agent/skills/rfp-sync-trackers/skill.md
 
 ## Defaults
 - Clarifications: always run, non-blocking, produce assumptions.
 - Hierarchy: PRD -> Epic -> Feature -> Story -> Task (fixed).
-- Output: local markdown in `outputs/` by default.
+- Output: local markdown and YAML in `outputs/` by default (`prd.spec.yaml`, `stories.spec.yaml`, `spec-digest.md`, `spec-changelog.md`; see `docs/spec-schema.md`).
 - Every artifact includes `assumptions` and `open_questions` sections.
 
 ## Templates
 - PRD: #file:../templates/prd.md
 - Stories: #file:../templates/stories.md
 - Task breakdown: #file:../templates/task-breakdown.md
+- PRD YAML skeleton: #file:../templates/prd.spec.yaml
+- Stories YAML skeleton: #file:../templates/stories.spec.yaml
+- Spec digest / changelog headings: #file:../templates/spec-digest.md · #file:../templates/spec-changelog.md
+- Schema reference: #file:../docs/spec-schema.md
+- New product repo kit (spec-driven scaffold): #file:../templates/repo-kit/README.md (full tree under `templates/repo-kit/`)
 
 ## Quick start
 ```

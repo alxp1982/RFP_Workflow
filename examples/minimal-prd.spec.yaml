@@ -1,0 +1,34 @@
+spec_version: 1
+meta:
+  product_name: "Acme Portal"
+  prd_status: draft
+  updated_at: "2026-05-01"
+  source: rfp-workflow
+
+scope:
+  in_scope:
+    - Employee self-service
+  out_of_scope:
+    - Payroll processing
+
+requirements:
+  functional:
+    - id: FR-01
+      title: Sign in with SSO
+      priority: P0
+      acceptance:
+        - User can complete SSO login
+    - id: FR-02
+      title: View profile
+      priority: P1
+      acceptance: []
+  nonfunctional:
+    - id: NFR-01
+      title: Availability
+      metric: 99.9% monthly
+
+assumptions:
+  - IdP is customer-provided
+
+open_questions:
+  - MFA enforcement timeline?

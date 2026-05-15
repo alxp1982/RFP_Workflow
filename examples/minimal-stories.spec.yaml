@@ -1,0 +1,55 @@
+spec_version: 1
+meta:
+  product_name: "Acme Portal"
+  updated_at: "2026-05-01"
+  source: rfp-workflow
+
+stories:
+  - id: S01.01.01
+    title: SSO sign-in
+    epic_id: E01
+    persona: Employee
+    user_story: As an employee, I want SSO sign-in, so that I access the portal securely.
+    prd_trace:
+      - FR-01
+    complexity: M
+    scenarios:
+      - name: Successful SSO
+        kind: happy
+        given:
+          - Valid SSO session
+        when:
+          - User lands on login and completes IdP flow
+        then:
+          - User sees dashboard
+      - name: IdP timeout
+        kind: edge
+        given:
+          - IdP returns error
+        when:
+          - User attempts login
+        then:
+          - User sees actionable error
+    acceptance_criteria:
+      - SSO completes under 10s p95
+      - Error path is logged
+
+  - id: S01.01.02
+    title: View profile
+    epic_id: E01
+    persona: Employee
+    user_story: As an employee, I want to view my profile, so that I verify my data.
+    prd_trace:
+      - FR-02
+    complexity: S
+    scenarios:
+      - name: Profile loads
+        kind: happy
+        given:
+          - Authenticated user
+        when:
+          - User opens profile
+        then:
+          - Fields render from HR source
+    acceptance_criteria:
+      - PII masked in logs

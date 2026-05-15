@@ -126,10 +126,22 @@ Paste raw client requirements and run the skills in sequence to produce:
 |---|---|
 | Clarification questions + assumptions | `outputs/clarifications.md` |
 | Product Requirements Document | `outputs/prd.md` |
+| Machine-readable PRD spec | `outputs/prd.spec.yaml` |
+| Spec digest & changelog (agent context) | `outputs/spec-digest.md`, `outputs/spec-changelog.md` |
 | Refined PRD (after answering questions) | `outputs/prd.md` (overwrite) |
 | Technical task decomposition | `outputs/task-breakdown.md` |
 | Gherkin stories with acceptance criteria | `outputs/stories.md` |
+| Machine-readable stories spec | `outputs/stories.spec.yaml` |
+| **New product repo kit** (spec-driven baseline: `spec/`, `AGENTS.md`, `CLAUDE.md`, `.cursor/`, `.claude/`, `.github/copilot-instructions.md`) | `outputs/repo-kit/` (copy tree to a fresh repo root) |
 | Export to Google Sheets / GitHub / Jira | via `rfp-sync-trackers` skill |
+
+## Bootstrapping a new product repository
+
+After a full pipeline run, **`outputs/repo-kit/`** contains a **ready-to-copy tree**
+(`spec/` copies of the PRD and backlog, optional **`prd.spec.yaml`** / **`stories.spec.yaml`**, **`AGENTS.md`**, **`CLAUDE.md`** for Claude Code, **`.github/copilot-instructions.md`** for GitHub Copilot, **`.cursor/`** rules plus **`project-spec-context`** skill, and the same skill under **`.claude/skills/`**). Copy **the contents of `repo-kit/`** into the root
+of a new empty git repository, commit, and start implementation with spec-driven
+agent defaults. Templates for this kit live under **`templates/repo-kit/`**; the
+**`rfp-bootstrap-repo`** skill defines exact paths and placeholder rules.
 
 ## Skills pipeline
 
@@ -153,6 +165,9 @@ rfp-task-breakdown   -> Epic -> Feature -> Story -> Task hierarchy
        |
        v
 rfp-user-stories     -> Gherkin-style stories + acceptance criteria
+       |
+       v
+rfp-bootstrap-repo   -> portable `outputs/repo-kit/` for a new product git repo
        |
        v
 rfp-sync-trackers      -> Google Sheets / GitHub Projects / Jira
