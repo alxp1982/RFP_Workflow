@@ -10,15 +10,26 @@ description: After PRD, breakdown, and stories exist, emit outputs/repo-kit/ —
 Materialize **`outputs/repo-kit/`**: a **portable folder** the user can copy to the
 **root of a new git repository** so the codebase starts with:
 
-- **`spec/`** — PRD, stories, task breakdown, clarifications, planning sheet (baseline backlog), plus **`prd.spec.yaml`** / **`stories.spec.yaml`** when produced upstream.
+**Important:** Everything under **`templates/repo-kit/`** (including nested `.cursor/`,
+`.claude/`, `docs/`, and any `SKILL.md` files there) is **scaffolding for the destination
+product repository only**. Those paths are **not** RFP Workflow pipeline skills in
+this repo and are **not** meant to be run from `skills/` here—they are copied into
+`outputs/repo-kit/` so the **new** product repo has its own agent rules and skills.
+
+- **`spec/`** — PRD, stories, task breakdown, clarifications, planning sheet (baseline backlog), architecture/stack decision when produced upstream, plus **`prd.spec.yaml`** / **`stories.spec.yaml`** when produced upstream.
 - **`spec/digest.md`** — short default agent context (regenerate when the PRD changes a lot).
 - **`spec/CHANGELOG.md`** — append-only spec change log (seed with an initial baseline entry).
 - **`AGENTS.md`** — cross-tool agent instructions for this product.
 - **`CLAUDE.md`** — Claude Code root entry (placeholders); points to `AGENTS.md` and `spec/`.
 - **`.github/copilot-instructions.md`** — GitHub Copilot repository instructions.
 - **`.cursor/rules/spec-driven-product.mdc`** — Cursor always-on guidance tied to `spec/`.
+- **`.cursor/rules/engineering-guardrails.mdc`** — Cursor: stack guardrails and baseline coding expectations.
 - **`.cursor/skills/project-spec-context/`** — Cursor skill to load digest + slices by Story ID.
+- **`.cursor/skills/spec-add-requirement/`** — Cursor skill: add requirements with markdown + YAML sync.
 - **`.claude/skills/project-spec-context/`** — Claude Code skill (same workflow as the Cursor skill).
+- **`.claude/skills/spec-add-requirement/`** — Claude Code skill (same workflow as Cursor **spec-add-requirement**).
+- **`docs/living-documentation.md`** — keeping spec and runtime docs current during development.
+- **`docs/engineering-guidelines.md`** — architecture guardrails and baseline coding guidelines.
 - **`.gitignore`** — generic baseline for a polyglot app repo.
 
 This step **does not** replace `outputs/prd.md` etc. It **copies** them into the kit
@@ -30,7 +41,7 @@ so `repo-kit/` is self-contained after copy.
   (stories/spec approval and explicit authorization to materialize the repo kit), and
   **before** **`rfp-sync-trackers`**.
 - May also be invoked alone when the user asks to “refresh the repo kit” after edits
-  to `outputs/prd.md` / stories / breakdown.
+  to `outputs/prd.md` / `outputs/architecture.md` / stories / breakdown.
 
 ## Inputs
 
@@ -41,6 +52,7 @@ Read from this RFP workflow workspace:
 - `outputs/task-breakdown.md`
 - `outputs/clarifications.md`
 - `outputs/planning-sheet.csv` (if missing, note in kit README and skip copy)
+- `outputs/architecture.md` (if present — copy into kit `spec/`)
 - When present (required by upstream skills): **`outputs/prd.spec.yaml`**,
   **`outputs/stories.spec.yaml`**, **`outputs/spec-digest.md`**, **`outputs/spec-changelog.md`**
 - Templates under `templates/repo-kit/` (see layout below)
@@ -57,9 +69,15 @@ Create or overwrite:
 | `outputs/repo-kit/.gitignore` | `templates/repo-kit/gitignore` (rename to dotfile) |
 | `outputs/repo-kit/.github/copilot-instructions.md` | Copy of `templates/repo-kit/.github/copilot-instructions.md` |
 | `outputs/repo-kit/.cursor/rules/spec-driven-product.mdc` | Copy of `templates/repo-kit/.cursor/rules/spec-driven-product.mdc` |
+| `outputs/repo-kit/.cursor/rules/engineering-guardrails.mdc` | Copy of `templates/repo-kit/.cursor/rules/engineering-guardrails.mdc` |
 | `outputs/repo-kit/.cursor/skills/project-spec-context/SKILL.md` | Copy of `templates/repo-kit/.cursor/skills/project-spec-context/SKILL.md` |
+| `outputs/repo-kit/.cursor/skills/spec-add-requirement/SKILL.md` | Copy of `templates/repo-kit/.cursor/skills/spec-add-requirement/SKILL.md` |
 | `outputs/repo-kit/.claude/skills/project-spec-context/SKILL.md` | Copy of `templates/repo-kit/.claude/skills/project-spec-context/SKILL.md` |
+| `outputs/repo-kit/.claude/skills/spec-add-requirement/SKILL.md` | Copy of `templates/repo-kit/.claude/skills/spec-add-requirement/SKILL.md` |
+| `outputs/repo-kit/docs/living-documentation.md` | Copy of `templates/repo-kit/docs/living-documentation.md` |
+| `outputs/repo-kit/docs/engineering-guidelines.md` | Copy of `templates/repo-kit/docs/engineering-guidelines.md` |
 | `outputs/repo-kit/spec/README.md` | Copy of `templates/repo-kit/spec/README.md` |
+| `outputs/repo-kit/spec/architecture.md` | **Full copy** of `outputs/architecture.md` if it exists |
 | `outputs/repo-kit/spec/prd.md` | **Full copy** of `outputs/prd.md` |
 | `outputs/repo-kit/spec/stories.md` | **Full copy** of `outputs/stories.md` |
 | `outputs/repo-kit/spec/task-breakdown.md` | **Full copy** of `outputs/task-breakdown.md` |
@@ -84,6 +102,7 @@ Replace globally in README, AGENTS, and CLAUDE.md:
   groupings or a compact index (not the full PRD).
 - Do **not** leave `<!-- ... -->` comments in the final `digest.md` or `CHANGELOG.md`.
 - Ensure **UTF-8** text; preserve markdown tables from the PRD in `spec/prd.md` verbatim on copy.
+- If **`spec/architecture.md`** is copied, strip any remaining `<!-- ... -->` comments there too.
 - If you copy **`outputs/infographics/`** into **`spec/infographics/`**, update **image paths inside `spec/prd.md`** so they resolve (for example `spec/infographics/INF-01-system-context.png`).
 
 ## User-facing note

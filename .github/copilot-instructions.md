@@ -11,7 +11,7 @@ human-in-the-loop checkpoints.
 Use: #file:../.agent/skills/rfp-full-workflow/skill.md
 
 The full workflow skill automatically runs all stages and pauses only at key review
-checkpoints (clarifications, infographic model, PRD, task breakdown, export sync).
+checkpoints (clarifications, infographic model, PRD, architecture & stack, task breakdown, export sync).
 
 ## Workflow
 
@@ -19,14 +19,15 @@ checkpoints (clarifications, infographic model, PRD, task breakdown, export sync
 2. Clarify (mandatory, non-blocking): #file:../.agent/skills/rfp-clarification-pass/skill.md
 3. Draft PRD: #file:../.agent/skills/rfp-draft-prd/skill.md
 4. Refine PRD (if answers available): #file:../.agent/skills/rfp-refine-prd/skill.md
-5. Task breakdown: #file:../.agent/skills/rfp-task-breakdown/skill.md
-6. User stories: #file:../.agent/skills/rfp-user-stories/skill.md
-7. Bootstrap product repo kit (`outputs/repo-kit/`): #file:../skills/rfp-bootstrap-repo/SKILL.md
-8. Sync to trackers: #file:../.agent/skills/rfp-sync-trackers/skill.md
+5. Architecture & stack options: #file:../skills/rfp-architecture-stack/SKILL.md
+6. Task breakdown: #file:../.agent/skills/rfp-task-breakdown/skill.md
+7. User stories: #file:../.agent/skills/rfp-user-stories/skill.md
+8. Bootstrap product repo kit (`outputs/repo-kit/`): #file:../skills/rfp-bootstrap-repo/SKILL.md
+9. Sync to trackers: #file:../.agent/skills/rfp-sync-trackers/skill.md
 
 ## Defaults
 - Clarifications: always run, non-blocking, produce assumptions.
-- Hierarchy: PRD -> Epic -> Feature -> Story -> Task (fixed).
+- Hierarchy: PRD -> architecture & stack -> Epic -> Feature -> Story -> Task (fixed).
 - Output: local markdown and YAML in `outputs/` by default (`prd.spec.yaml`, `stories.spec.yaml`, `spec-digest.md`, `spec-changelog.md`; see `docs/spec-schema.md`).
 - Every artifact includes `assumptions` and `open_questions` sections.
 
@@ -34,6 +35,7 @@ checkpoints (clarifications, infographic model, PRD, task breakdown, export sync
 - PRD: #file:../templates/prd.md
 - Stories: #file:../templates/stories.md
 - Task breakdown: #file:../templates/task-breakdown.md
+- Architecture memo: #file:../templates/architecture.md
 - PRD YAML skeleton: #file:../templates/prd.spec.yaml
 - Stories YAML skeleton: #file:../templates/stories.spec.yaml
 - Spec digest / changelog headings: #file:../templates/spec-digest.md · #file:../templates/spec-changelog.md

@@ -46,4 +46,4 @@ Add at the top of the PRD markdown:
 ```
 
 ## Next step
-Go to **rfp-task-breakdown**.
+Go to **rfp-architecture-stack** (then **rfp-task-breakdown** after stack selection in the full workflow).

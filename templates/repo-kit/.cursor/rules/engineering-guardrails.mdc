@@ -1,0 +1,26 @@
+---
+description: Architecture guardrails and baseline coding expectations for this product repo (complements spec-driven-product)
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Engineering guardrails
+
+Full detail: **`docs/engineering-guidelines.md`**. Living doc habits: **`docs/living-documentation.md`**.
+
+## Stack and architecture
+
+- Follow **`spec/architecture.md`** — especially **`## Selected stack (locked)`**. Do not swap databases, languages, or major frameworks without updating that doc (and typically an ADR under **`docs/adr/`**).
+- Respect integration and trust boundaries from the architecture memo.
+
+## Spec and traceability
+
+- **`spec/prd.md`** / **`spec/prd.spec.yaml`** and **`spec/stories.md`** / **`spec/stories.spec.yaml`** stay in sync when requirements change; use **`spec-add-requirement`** skill (`.cursor/skills/spec-add-requirement/SKILL.md` or `.claude/skills/spec-add-requirement/SKILL.md`).
+- Code and tests map to **FR-/NFR-** and **Story IDs** where applicable.
+
+## Code quality baseline
+
+- Prefer small PRs; avoid drive-by refactors unrelated to the task.
+- Add or update tests when behavior changes; do not weaken tests to hide regressions.
+- No committed secrets; minimize sensitive data in logs.
+- Match existing project formatting and patterns until **`docs/engineering-guidelines.md`** defines stricter per-language rules.

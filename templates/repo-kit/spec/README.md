@@ -9,6 +9,7 @@ run. Treat it as authoritative for **what** to build until intentionally changed
 | `CHANGELOG.md` | Append-only spec change log (from workflow `spec-changelog.md` when copied). |
 | `prd.spec.yaml` | Machine-readable PRD companion (optional but recommended). |
 | `stories.spec.yaml` | Machine-readable stories companion (optional but recommended). |
+| `architecture.md` | High-level architecture and technology stack decision (when produced upstream). |
 | `prd.md` | Full product requirements document. |
 | `stories.md` | User stories, Gherkin, acceptance criteria, Story IDs. |
 | `task-breakdown.md` | Epic → Feature → Story → Task hierarchy and dependencies. |
@@ -17,3 +18,10 @@ run. Treat it as authoritative for **what** to build until intentionally changed
 
 For day-to-day agent work, prefer **`digest.md`** plus **targeted excerpts** by ID
 rather than loading every file in full each turn.
+
+## Product repo `docs/`
+
+| File | Role |
+|------|------|
+| `living-documentation.md` | Habits for keeping spec and runtime documentation current. |
+| `engineering-guidelines.md` | Architecture guardrails and baseline coding expectations. |

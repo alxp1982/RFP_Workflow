@@ -13,6 +13,11 @@ using the fixed hierarchy:
 
 ## Inputs
 - Final PRD (`#file:outputs/prd.md`).
+- Architecture and stack decision (`#file:outputs/architecture.md`) — required when
+  present; use **`## Selected stack (locked)`** (or the closest “selected stack” section)
+  so epics, stories, and tasks align with the chosen runtime, datastore, integrations,
+  and deployment shape. If `outputs/architecture.md` is missing, state that gap under
+  technical assumptions and still decompose from the PRD alone.
 
 ## Instructions
 
@@ -26,8 +31,11 @@ Rules:
 4. Every task must be concrete (< 1 day of work). No vague tasks.
 5. Include a complexity estimate for each Story: S / M / L / XL.
 6. Include a dependency reference where a Story depends on another Story.
-7. Flag any technical assumptions made during decomposition.
+7. Flag any technical assumptions made during decomposition (including conflicts with
+   `outputs/architecture.md` if any).
 8. The hierarchy must be complete enough to populate a planning spreadsheet.
+9. Prefer tasks that reflect the **locked stack** (e.g. framework-specific setup stories,
+   infra-as-code for the chosen host) when `outputs/architecture.md` defines them.
 
 ## Output format
 

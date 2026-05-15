@@ -157,11 +157,8 @@ Regenerate when `prd.md` changes materially; **do not** duplicate full PRD prose
 
 ## Repo kit (`outputs/repo-kit/`)
 
-`rfp-bootstrap-repo` materializes a **portable tree** for a new product git repository:
+`rfp-bootstrap-repo` copies **`templates/repo-kit/`** into **`outputs/repo-kit/`** so you can paste that tree into a **new product repository’s root** (`spec/`, `AGENTS.md`, product-only Cursor/Claude rules and skills, Copilot instructions, optional `docs/` for the product codebase, and so on).
 
-- **`spec/`** — copies `outputs/prd.md`, stories, breakdown, clarifications, optional `planning-sheet.csv`, optional `prd.spec.yaml` / `stories.spec.yaml`, digest/changelog (prefers **`outputs/spec-digest.md`** / **`outputs/spec-changelog.md`** when present; otherwise may synthesize digest from the template; see skill).
-- **`AGENTS.md`** — shared agent instructions (placeholders filled from the PRD title and date).
-- **`CLAUDE.md`** — Claude Code root entry (same placeholders); points to `AGENTS.md` and `spec/`.
-- **`.github/copilot-instructions.md`** — GitHub Copilot repository instructions (spec-driven defaults).
-- **`.cursor/rules/spec-driven-product.mdc`** and **`.cursor/skills/project-spec-context/`** — Cursor.
-- **`.claude/skills/project-spec-context/`** — Claude Code skill (same workflow as the Cursor skill).
+**These kit files are not RFP Workflow skills.** They do not live under this repository’s
+`skills/` pipeline; they exist only as **templates** until materialized into `outputs/repo-kit/`
+and copied out. Full layout: **`templates/repo-kit/README.md`**.

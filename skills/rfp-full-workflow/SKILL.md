@@ -1,6 +1,6 @@
 ---
 name: rfp-full-workflow
-description: Run the entire RFP-to-delivery pipeline in one go—normalize the RFP, clarification pass, PRD draft and optional refine, task hierarchy, user stories, machine-readable YAML specs (`prd.spec.yaml`, `stories.spec.yaml`) plus digest/changelog, bootstrap a spec-driven repo kit, then sync to trackers—with human checkpoints. Use when the user gives raw RFP text or a file and wants the full chain executed automatically.
+description: Run the entire RFP-to-delivery pipeline in one go—normalize the RFP, clarification pass, PRD draft and optional refine, architecture and stack selection, task hierarchy, user stories, machine-readable YAML specs (`prd.spec.yaml`, `stories.spec.yaml`) plus digest/changelog, bootstrap a spec-driven repo kit, then sync to trackers—with human checkpoints. Use when the user gives raw RFP text or a file and wants the full chain executed automatically.
 ---
 
 # Full workflow — RFP to delivery (human checkpoints)
@@ -10,7 +10,7 @@ Run the full RFP workflow end-to-end in a single invocation, while keeping the
 human in control at key decision checkpoints.
 
 This skill internally executes:
-`rfp-normalize-rfp -> rfp-clarification-pass -> rfp-draft-prd -> rfp-refine-prd (if answers provided) -> rfp-task-breakdown -> rfp-user-stories -> rfp-bootstrap-repo -> rfp-sync-trackers`
+`rfp-normalize-rfp -> rfp-clarification-pass -> rfp-draft-prd -> rfp-refine-prd (if answers provided) -> rfp-architecture-stack -> rfp-task-breakdown -> rfp-user-stories -> rfp-bootstrap-repo -> rfp-sync-trackers`
 
 ## Inputs
 Provide one of:
@@ -33,8 +33,8 @@ Use this structure and headings:
 ### Planning summary
 - **Goal** — One sentence on the delivery outcome this run will pursue from the RFP/input.
 - **Inputs understood** — Bullets: source (paste vs file path), rough size or key sections if obvious, and any **PRD / stories / export** targets the user gave (else defaults).
-- **Pipeline** — Ordered stages you will run: `rfp-normalize-rfp` → `rfp-clarification-pass` → `rfp-draft-prd` → `[rfp-refine-prd]` → `rfp-task-breakdown` → `rfp-user-stories` → `rfp-bootstrap-repo` → `rfp-sync-trackers`, each with a **few words** on the artifact it produces (include **YAML specs + digest/changelog** after PRD and stories).
-- **Checkpoints** — **A** clarifications → **B** infographic model → **C** PRD → **D** decomposition → **F** stories/spec + repo-kit authorization → **E** export/sync. Each gate requires a user reply before the next stage (unless the user explicitly opts out of gates).
+- **Pipeline** — Ordered stages you will run: `rfp-normalize-rfp` → `rfp-clarification-pass` → `rfp-draft-prd` → `[rfp-refine-prd]` → **`rfp-architecture-stack`** → `rfp-task-breakdown` → `rfp-user-stories` → `rfp-bootstrap-repo` → `rfp-sync-trackers`, each with a **few words** on the artifact it produces (include **YAML specs + digest/changelog** after PRD and stories).
+- **Checkpoints** — **A** clarifications → **B** infographic model → **C** PRD → **D** architecture & stack → **E** decomposition → **F** stories/spec + repo-kit authorization → **G** export/sync. Each gate requires a user reply before the next stage (unless the user explicitly opts out of gates).
 - **Initial risks / unknowns** — 2–4 bullets grounded in the RFP preview only (e.g. missing dates, unclear integrations, large scope); do **not** invent client-specific facts.
 - **Next step** — One sentence: you will begin **`rfp-normalize-rfp`** immediately after this summary unless the user redirects.
 
@@ -65,10 +65,11 @@ You are an orchestrating product+delivery agent.
 |----------------|------------|------------------------------|
 | `rfp-normalize-rfp` + `rfp-clarification-pass` | **A** | Start **`rfp-draft-prd`** (and infographics per **B**) |
 | (just before heavy PRD draft / infographics) | **B** | Proceed with infographic generation inside draft PRD |
-| `rfp-draft-prd` [+ optional `rfp-refine-prd`] | **C** | Start **`rfp-task-breakdown`** |
-| `rfp-task-breakdown` | **D** | Start **`rfp-user-stories`** |
+| `rfp-draft-prd` [+ optional `rfp-refine-prd`] | **C** | Start **`rfp-architecture-stack`** |
+| `rfp-architecture-stack` | **D** | Update **`outputs/architecture.md`** with the chosen stack (see checkpoint text), then start **`rfp-task-breakdown`** |
+| `rfp-task-breakdown` | **E** | Start **`rfp-user-stories`** |
 | `rfp-user-stories` (incl. `stories.spec.yaml`, digest refresh) | **F** | Run **`rfp-bootstrap-repo`** (writes `outputs/repo-kit/`) |
-| (ready to export) | **E** | Run **`rfp-sync-trackers`** |
+| (ready to export) | **G** | Run **`rfp-sync-trackers`** |
 
 ## Human-in-the-loop checkpoints
 Pause at each checkpoint below and **wait for the user’s reply** before continuing
@@ -95,7 +96,18 @@ Show a concise PRD summary (goals, in-scope, out-of-scope, risks).
 Ask:
 "Approve PRD draft? (approve / edit). If edit, list requested changes."
 
-### Checkpoint D — Task plan review (breakdown)
+### Checkpoint D — Architecture and technology stack
+Show:
+- one-paragraph architecture summary
+- stack options table (or link to headings in `outputs/architecture.md`)
+- your recommendation line
+
+Ask:
+"Which stack option do you adopt for implementation planning? (option name / letter, or describe a hybrid). I will lock **`outputs/architecture.md`** under **`## Selected stack (locked)`** accordingly."
+
+After the user answers, **edit `outputs/architecture.md`**: replace **`## Selected stack (pending)`** with **`## Selected stack (locked)`**, fill the chosen components and date, and keep comparison/recommendation sections unless the user asks to trim them.
+
+### Checkpoint E — Task plan review (breakdown)
 Show decomposition summary (epics count, stories count, major dependencies).
 
 Ask:
@@ -114,7 +126,7 @@ Ask:
 tree for a **new** codebase repo and should only happen after explicit approval of
 stories/specs (or a user instruction to skip this gate).
 
-### Checkpoint E — Export / sync confirmation
+### Checkpoint G — Export / sync confirmation
 Show selected export targets and what will be generated.
 
 Ask:
@@ -129,6 +141,7 @@ Generate and/or update:
 - `outputs/prd.spec.yaml`
 - `outputs/spec-digest.md`
 - `outputs/spec-changelog.md`
+- `outputs/architecture.md`
 - `outputs/task-breakdown.md`
 - `outputs/planning-sheet.csv`
 - `outputs/stories.md`

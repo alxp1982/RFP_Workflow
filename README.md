@@ -129,6 +129,7 @@ Paste raw client requirements and run the skills in sequence to produce:
 | Machine-readable PRD spec | `outputs/prd.spec.yaml` |
 | Spec digest & changelog (agent context) | `outputs/spec-digest.md`, `outputs/spec-changelog.md` |
 | Refined PRD (after answering questions) | `outputs/prd.md` (overwrite) |
+| Architecture & technology stack options | `outputs/architecture.md` |
 | Technical task decomposition | `outputs/task-breakdown.md` |
 | Gherkin stories with acceptance criteria | `outputs/stories.md` |
 | Machine-readable stories spec | `outputs/stories.spec.yaml` |
@@ -138,10 +139,9 @@ Paste raw client requirements and run the skills in sequence to produce:
 ## Bootstrapping a new product repository
 
 After a full pipeline run, **`outputs/repo-kit/`** contains a **ready-to-copy tree**
-(`spec/` copies of the PRD and backlog, optional **`prd.spec.yaml`** / **`stories.spec.yaml`**, **`AGENTS.md`**, **`CLAUDE.md`** for Claude Code, **`.github/copilot-instructions.md`** for GitHub Copilot, **`.cursor/`** rules plus **`project-spec-context`** skill, and the same skill under **`.claude/skills/`**). Copy **the contents of `repo-kit/`** into the root
+for a **new product git repository** (see **`templates/repo-kit/README.md`** for the full layout: `spec/`, `AGENTS.md`, product-only Cursor/Claude rules and **nested** skills, Copilot instructions, optional `docs/` guides, and so on). **Those nested skills and `docs/` are not part of this RFP Workflow repo’s `skills/` pipeline**—they ship only inside the kit for use **after** you copy `repo-kit/` into the product repo root. Copy **the contents of `repo-kit/`** into the root
 of a new empty git repository, commit, and start implementation with spec-driven
-agent defaults. Templates for this kit live under **`templates/repo-kit/`**; the
-**`rfp-bootstrap-repo`** skill defines exact paths and placeholder rules.
+agent defaults. The **`rfp-bootstrap-repo`** skill defines exact paths and placeholder rules.
 
 ## Skills pipeline
 
@@ -159,6 +159,9 @@ rfp-draft-prd   -> full PRD markdown
        |
        v
 rfp-refine-prd  -> refined PRD after answering questions  (optional)
+       |
+       v
+rfp-architecture-stack -> architecture memo + stack comparison + selection
        |
        v
 rfp-task-breakdown   -> Epic -> Feature -> Story -> Task hierarchy
@@ -222,8 +225,10 @@ skills/
   rfp-clarification-pass/SKILL.md      Questions + assumptions (non-blocking)
   rfp-draft-prd/SKILL.md               Write PRD from requirements
   rfp-refine-prd/SKILL.md              Update PRD after clarification answers
+  rfp-architecture-stack/SKILL.md      Architecture + stack options before breakdown
   rfp-task-breakdown/SKILL.md          Epic → Feature → Story → Task plan
   rfp-user-stories/SKILL.md            Gherkin-style acceptance stories
+  rfp-bootstrap-repo/SKILL.md          Materialize `outputs/repo-kit/` for a new repo
   rfp-sync-trackers/SKILL.md           Push artifacts to Sheets / GitHub / Jira
 
 templates/
@@ -256,7 +261,7 @@ examples/
 - **Tool-agnostic.** Works in any AI assistant.
 - **Non-blocking clarifications.** Ambiguity becomes assumptions, never a
   hard stop.
-- **Fixed hierarchy.** PRD -> Epic -> Feature -> Story -> AC -- every time.
+- **Fixed hierarchy.** PRD → architecture & stack → Epic → Feature → Story → Task — every time.
 - **Traceable.** Every artifact carries `assumptions` and `open_questions`.
 - **Flexible output targets.** Default local markdown; export skills handle
   Sheets / GitHub / Jira.

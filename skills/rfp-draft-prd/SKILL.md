@@ -109,4 +109,4 @@ Key sections that must be present:
 ## Next step
 - If clarification answers are available: go to **rfp-refine-prd** (it will refresh
   `prd.spec.yaml`, `spec-digest.md`, and append `spec-changelog.md`).
-- Otherwise: go to **rfp-task-breakdown** (structured PRD files are already written).
+- Otherwise: go to **rfp-architecture-stack** (PRD is ready for architecture and stack options before decomposition).

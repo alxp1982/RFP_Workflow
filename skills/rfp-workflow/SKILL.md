@@ -1,6 +1,6 @@
 ---
 name: rfp-workflow
-description: Entry point for this repo. Tells the agent to run the full RFP pipeline via **`rfp-full-workflow`**: normalize → clarify → PRD → backlog → stories → repo kit for a fresh product repo → optional sync to trackers, with human checkpoints.
+description: Entry point for this repo. Tells the agent to run the full RFP pipeline via **`rfp-full-workflow`**: normalize → clarify → PRD → architecture & stack → backlog → stories → repo kit for a fresh product repo → optional sync to trackers, with human checkpoints.
 ---
 
 # RFP workflow (repo entry)
@@ -23,5 +23,6 @@ You should:
 2. Read the user's provided RFP text or file.
 3. Start with the **Planning summary** from the full workflow skill (planning-mode style),
    then automatically execute all stages (`rfp-normalize-rfp` → `rfp-clarification-pass` →
-   `rfp-draft-prd` → `[rfp-refine-prd]` → `rfp-task-breakdown` → `rfp-user-stories` →
-   `rfp-bootstrap-repo` → `[rfp-sync-trackers]`) pausing only at the defined human-in-the-loop checkpoints.
+   `rfp-draft-prd` → `[rfp-refine-prd]` → `rfp-architecture-stack` → `rfp-task-breakdown` →
+   `rfp-user-stories` → `rfp-bootstrap-repo` → `[rfp-sync-trackers]`) pausing only at the
+   defined human-in-the-loop checkpoints.

@@ -25,6 +25,7 @@ markdown (`prd.md`, `stories.md`) for narrative review and stakeholder wording.
 
 - **`spec/prd.spec.yaml`** / **`spec/stories.spec.yaml`** — compact structured specs (see upstream `docs/spec-schema.md` in the RFP workflow repo if copied).
 - **`spec/prd.md`** — full PRD (human review, detailed requirements).
+- **`spec/architecture.md`** — solution architecture and stack decision (when copied).
 - **`spec/stories.md`** — user stories and Gherkin for testing and delivery.
 - **`spec/task-breakdown.md`** — implementation planning hierarchy.
 - **`spec/clarifications.md`** — questions, assumptions, and clarification history.
@@ -36,5 +37,7 @@ markdown (`prd.md`, `stories.md`) for narrative review and stakeholder wording.
 - Prefer **targeted excerpts** (by id or heading) over pasting entire files each turn.
 - When the PRD or stories change, update **`spec/digest.md`** and append **`spec/CHANGELOG.md`**.
 - Do not invent scope beyond **`spec/prd.md`** / **`spec/prd.spec.yaml`** without an explicit change request.
+- For additive scope, use **`spec-add-requirement`** (`.cursor/skills/spec-add-requirement/SKILL.md` or `.claude/skills/spec-add-requirement/SKILL.md`) so markdown and YAML stay aligned.
+- Follow **`docs/living-documentation.md`** for ongoing doc hygiene and **`docs/engineering-guidelines.md`** for stack guardrails (Cursor: also **`engineering-guardrails.mdc`**).
 
 See **`AGENTS.md`** for cross-tool guidance. **Claude Code** loads **`CLAUDE.md`** and **`.claude/skills/`**; **GitHub Copilot** uses **`.github/copilot-instructions.md`** in addition to **`AGENTS.md`**.

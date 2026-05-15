@@ -11,20 +11,20 @@ PRDs, task breakdowns, Gherkin stories, and **machine-readable YAML** (`prd.spec
 `stories.spec.yaml`) plus **`spec-digest.md`** / **`spec-changelog.md`** for agent context.
 See **`docs/spec-schema.md`**.
 
-Default mode: run the **full workflow** skill once. The skill opens with a **Planning summary** (no pause), then runs the pipeline and **stops at human checkpoints A–F** (see `skills/rfp-full-workflow/SKILL.md`): clarifications, infographic model, PRD, decomposition, **stories/spec + repo-kit authorization**, export/sync. Do not skip gates unless the user explicitly opts out.
+Default mode: run the **full workflow** skill once. The skill opens with a **Planning summary** (no pause), then runs the pipeline and **stops at human checkpoints A–G** (see `skills/rfp-full-workflow/SKILL.md`): clarifications, infographic model, PRD, architecture & stack, decomposition, **stories/spec + repo-kit authorization**, export/sync. Do not skip gates unless the user explicitly opts out.
 
 ## Workflow order
-rfp-normalize-rfp -> rfp-clarification-pass -> rfp-draft-prd -> [rfp-refine-prd] -> rfp-task-breakdown -> rfp-user-stories -> rfp-bootstrap-repo -> rfp-sync-trackers
+rfp-normalize-rfp -> rfp-clarification-pass -> rfp-draft-prd -> [rfp-refine-prd] -> rfp-architecture-stack -> rfp-task-breakdown -> rfp-user-stories -> rfp-bootstrap-repo -> rfp-sync-trackers
 
 ## One-shot execution (recommended)
 Use @.agent/skills/rfp-full-workflow/skill.md with your input RFP.
-The full workflow skill emits a **Planning summary** first, then pauses at human checkpoints (clarifications, infographic model, PRD, decomposition, **stories + repo kit**, export).
+The full workflow skill emits a **Planning summary** first, then pauses at human checkpoints (clarifications, infographic model, PRD, architecture & stack, decomposition, **stories + repo kit**, export).
 
 ## Fixed rules
 - Hierarchy is always: Epic -> Feature -> Story -> Task. Never deviate.
 - Clarification pass ALWAYS runs. **`rfp-clarification-pass`** is non-blocking for *workflow continuation* (assumptions if unanswered), but **checkpoint A** still requires the user to **reply** (answers or “continue with assumptions”) before drafting the PRD.
 - Every artifact must include `## Assumptions` and `## Open Questions` sections.
-- Outputs go to the `outputs/` directory, including **`outputs/prd.spec.yaml`**, **`outputs/stories.spec.yaml`**, **`outputs/spec-digest.md`**, **`outputs/spec-changelog.md`**, and **`outputs/repo-kit/`** after a full run (copy `repo-kit/` into a new product repo root when bootstrapping code; the kit includes **Cursor**, **Claude Code**, and **GitHub Copilot** entry points under **`templates/repo-kit/`**).
+- Outputs go to the `outputs/` directory, including **`outputs/prd.spec.yaml`**, **`outputs/stories.spec.yaml`**, **`outputs/spec-digest.md`**, **`outputs/spec-changelog.md`**, and **`outputs/repo-kit/`** after a full run (copy `repo-kit/` into a new product repo root when bootstrapping code). **`templates/repo-kit/`** holds **product-repo-only** scaffold (nested `.cursor/` / `.claude/` / `docs/` there are for the *destination* repo, not RFP pipeline skills in this workspace).
 - Use templates from the `templates/` directory (including **`templates/repo-kit/`** for the portable repo scaffold, and **`templates/prd.spec.yaml`** / **`templates/stories.spec.yaml`** for YAML shape).
 
 ## How to invoke a skill

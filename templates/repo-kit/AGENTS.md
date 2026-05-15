@@ -9,6 +9,8 @@ truth** live under `spec/`. Prefer those files over chat memory.
 2. For dense / low-token context, prefer **`spec/prd.spec.yaml`** and **`spec/stories.spec.yaml`**
    (lists, ids, structured scenarios) when they exist; use markdown for long-form review.
 3. Load **only** the slices you need next:
+   - **`spec/architecture.md`** — when present: high-level solution shape, stack options,
+     and **`## Selected stack (locked)`** for implementation defaults.
    - **`spec/stories.md`** — for acceptance / Gherkin and Story IDs.
    - **`spec/prd.md`** — for FR/NFR detail, NFRs, and scope.
    - **`spec/task-breakdown.md`** — for dependencies and the Epic → Feature → Story → Task tree.
@@ -26,11 +28,21 @@ truth** live under `spec/`. Prefer those files over chat memory.
 ## Tool-specific entry points
 
 - **Cursor:** `@.cursor/skills/project-spec-context/SKILL.md` when starting implementation
-  on a set of stories (pass Story IDs in chat). Rule: `.cursor/rules/spec-driven-product.mdc`.
+  on a set of stories (pass Story IDs in chat). Rules: `.cursor/rules/spec-driven-product.mdc`
+  and `.cursor/rules/engineering-guardrails.mdc`.
+- **Cursor / Claude — new requirements:** `@.cursor/skills/spec-add-requirement/SKILL.md`
+  (or `.claude/skills/spec-add-requirement/SKILL.md`) whenever you add FR/NFR, stories,
+  or backlog items — update **markdown and YAML** together, then **`spec/digest.md`**
+  and **`spec/CHANGELOG.md`**.
 - **Claude Code:** project skill `.claude/skills/project-spec-context/SKILL.md` (same
-  workflow). Root **`CLAUDE.md`** points here and to **`AGENTS.md`**.
+  workflow as Cursor). Root **`CLAUDE.md`** points here and to **`AGENTS.md`**.
 - **GitHub Copilot:** `.github/copilot-instructions.md` is loaded as repo context; it defers
   to **`AGENTS.md`** and **`spec/`** for full rules.
+
+## Living docs and engineering baseline
+
+- **`docs/living-documentation.md`** — how to keep **`spec/`** and runtime docs current during development.
+- **`docs/engineering-guidelines.md`** — architecture/stack guardrails and baseline coding expectations (extend with language-specific subsections as you adopt conventions).
 
 ## When to read full `spec/prd.md`
 

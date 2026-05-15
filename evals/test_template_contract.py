@@ -10,6 +10,7 @@ REQUIRED_TEMPLATE_SNIPPETS = {
     "templates/prd.md": ("## Assumptions", "### Open Questions"),
     "templates/stories.md": ("## Assumptions", "## Open Questions"),
     "templates/clarifications.md": ("## Working Assumptions", "## Open Questions"),
+    "templates/architecture.md": ("## Assumptions", "## Open Questions"),
     "templates/spec-digest.md": ("## One-line outcome", "## Requirement ID index"),
     "templates/spec-changelog.md": ("## Log",),
 }
@@ -80,6 +81,42 @@ def test_repo_kit_templates_exist_and_have_placeholders(repo_root: Path) -> None
     assert claude_md.is_file()
     claude_tpl = claude_md.read_text(encoding="utf-8")
     assert "{{PROJECT_NAME}}" in claude_tpl and "{{GENERATED_DATE}}" in claude_tpl
+
+    add_req = (
+        repo_root
+        / "templates"
+        / "repo-kit"
+        / ".cursor"
+        / "skills"
+        / "spec-add-requirement"
+        / "SKILL.md"
+    )
+    assert add_req.is_file()
+    add_raw = add_req.read_text(encoding="utf-8")
+    assert add_raw.startswith("---\n")
+    assert "name: spec-add-requirement" in add_raw.split("---", 2)[1]
+
+    claude_add = (
+        repo_root
+        / "templates"
+        / "repo-kit"
+        / ".claude"
+        / "skills"
+        / "spec-add-requirement"
+        / "SKILL.md"
+    )
+    assert claude_add.is_file()
+    assert claude_add.read_text(encoding="utf-8") == add_raw
+
+    living = repo_root / "templates" / "repo-kit" / "docs" / "living-documentation.md"
+    assert living.is_file() and "Living documentation" in living.read_text(encoding="utf-8")
+
+    eng = repo_root / "templates" / "repo-kit" / "docs" / "engineering-guidelines.md"
+    assert eng.is_file() and "Selected stack (locked)" in eng.read_text(encoding="utf-8")
+
+    guard = repo_root / "templates" / "repo-kit" / ".cursor" / "rules" / "engineering-guardrails.mdc"
+    assert guard.is_file()
+    assert "engineering-guidelines.md" in guard.read_text(encoding="utf-8")
 
 
 def test_spec_schema_doc_exists(repo_root: Path) -> None:

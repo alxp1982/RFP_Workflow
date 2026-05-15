@@ -12,6 +12,9 @@ breakdown, ready for export to GitHub Projects or Jira.
 ## Inputs
 - Task breakdown (`#file:outputs/task-breakdown.md`).
 - PRD for context (`#file:outputs/prd.md`).
+- When present, architecture / stack (`#file:outputs/architecture.md`) — use for
+  technical wording in scenarios (APIs, auth flows, deployment) without expanding scope
+  beyond the PRD.
 
 ## Instructions
 
