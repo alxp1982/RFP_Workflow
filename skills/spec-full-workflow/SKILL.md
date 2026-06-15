@@ -1,6 +1,6 @@
 ---
 name: spec-full-workflow
-description: Run the entire spec-to-delivery pipeline in one go—normalize input, clarification pass, PRD draft and optional refine, architecture and stack selection, task hierarchy, user stories, machine-readable YAML specs (`prd.spec.yaml`, `stories.spec.yaml`) plus digest/changelog, bootstrap a spec-driven repo kit, then sync to trackers—with human checkpoints. Use when the user gives raw requirements text or a file and wants the full chain executed automatically.
+description: Run the entire spec-to-delivery pipeline in one go—optionally fetch Notion meeting notes, normalize input, clarification pass, PRD draft and optional refine, architecture and stack selection, task hierarchy, user stories, machine-readable YAML specs (`prd.spec.yaml`, `stories.spec.yaml`) plus digest/changelog, bootstrap a spec-driven repo kit, then sync to trackers—with human checkpoints. Use when the user gives raw requirements, Notion URLs/search, or a file and wants the full chain executed automatically.
 ---
 
 # Full workflow — requirements to delivery (human checkpoints)
@@ -10,15 +10,20 @@ Run the full spec workflow end-to-end in a single invocation, while keeping the
 human in control at key decision checkpoints.
 
 This skill internally executes:
-`spec-normalize-input -> spec-clarification-pass -> spec-draft-prd -> spec-refine-prd (if answers provided) -> spec-architecture-stack -> spec-task-breakdown -> spec-user-stories -> spec-bootstrap-repo -> spec-sync-trackers`
+`[spec-notion-input if Notion URLs/search] -> spec-normalize-input -> spec-clarification-pass -> spec-draft-prd -> spec-refine-prd (if answers provided) -> spec-architecture-stack -> spec-task-breakdown -> spec-user-stories -> spec-bootstrap-repo -> spec-sync-trackers`
 
 ## Inputs
 Provide one of:
 - Raw requirements text pasted in chat.
 - A source file reference (for example `#file:examples/sample-rfp.md`).
+- **Notion meeting notes** — one or more **Notion page URLs** and/or a **search string**
+  (requires Notion MCP; see README § Notion meeting notes). When provided, run
+  **`spec-notion-input`** first, then continue with **`spec-normalize-input`**
+  using `#file:outputs/notion-input.md`.
 
 If **`outputs/prd.md`** already exists and the user is adding information rather
-than starting fresh, use **`spec-update`** instead of this skill.
+than starting fresh, use **`spec-update`** instead of this skill (Notion input
+works there too).
 
 Optional:
 - Output targets:
@@ -35,11 +40,11 @@ Use this structure and headings:
 
 ### Planning summary
 - **Goal** — One sentence on the delivery outcome this run will pursue from the RFP/input.
-- **Inputs understood** — Bullets: source (paste vs file path), rough size or key sections if obvious, and any **PRD / stories / export** targets the user gave (else defaults).
-- **Pipeline** — Ordered stages you will run: `spec-normalize-input` → `spec-clarification-pass` → `spec-draft-prd` → `[spec-refine-prd]` → **`spec-architecture-stack`** → `spec-task-breakdown` → `spec-user-stories` → `spec-bootstrap-repo` → `spec-sync-trackers`, each with a **few words** on the artifact it produces (include **YAML specs + digest/changelog** after PRD and stories).
+- **Inputs understood** — Bullets: source (paste vs file path vs **Notion URLs/search**), rough size or key sections if obvious, and any **PRD / stories / export** targets the user gave (else defaults).
+- **Pipeline** — Ordered stages you will run: `[spec-notion-input]` → `spec-normalize-input` → `spec-clarification-pass` → `spec-draft-prd` → `[spec-refine-prd]` → **`spec-architecture-stack`** → `spec-task-breakdown` → `spec-user-stories` → `spec-bootstrap-repo` → `spec-sync-trackers`, each with a **few words** on the artifact it produces (include **YAML specs + digest/changelog** after PRD and stories). Omit `spec-notion-input` when no Notion input was given.
 - **Checkpoints** — **A** clarifications → **B** infographic model → **C** PRD → **D** architecture & stack → **E** decomposition → **F** stories/spec + repo-kit authorization → **G** export preview (epic/story summary table) → **G2** per-story export review (Jira/GitHub). Each gate requires a user reply before the next stage (unless the user explicitly opts out of gates).
 - **Initial risks / unknowns** — 2–4 bullets grounded in the RFP preview only (e.g. missing dates, unclear integrations, large scope); do **not** invent client-specific facts.
-- **Next step** — One sentence: you will begin **`spec-normalize-input`** immediately after this summary unless the user redirects.
+- **Next step** — One sentence: you will begin **`spec-notion-input`** (if Notion input) or **`spec-normalize-input`** immediately after this summary unless the user redirects.
 
 Then proceed with the execution rules below.
 
@@ -51,6 +56,10 @@ You are an orchestrating product+delivery agent.
    the human clears the **checkpoint** that guards that stage (see **Checkpoint map**
    below). **Do not** “fast forward” past a checkpoint in a single assistant turn unless
    the user explicitly instructs you to (e.g. “approve all checkpoints and run end-to-end”).
+0b. **Notion input:** If the user supplied **Notion page URL(s)** and/or a **search string**,
+   run **`spec-notion-input`** (`skills/spec-notion-input/SKILL.md`) with `mode: initial`
+   **before** **`spec-normalize-input`**. Pass `#file:outputs/notion-input.md` into
+   normalize. If Notion MCP is missing, stop with setup instructions (README § Notion).
 1. Clarifications are mandatory: you always run **`spec-clarification-pass`** and write
    `outputs/clarifications.md`. **Checkpoint A** is still required: present questions and
    assumptions and **wait** for the user to answer or decline; if they decline, continue
@@ -66,6 +75,7 @@ You are an orchestrating product+delivery agent.
 
 | After skill(s) | Checkpoint | Human must clear before you… |
 |----------------|------------|------------------------------|
+| `spec-notion-input` (search only, 2+ hits) | **N** (optional) | Fetch selected pages — user picks from disambiguation table |
 | `spec-normalize-input` + `spec-clarification-pass` | **A** | Start **`spec-draft-prd`** (and infographics per **B**) |
 | (just before heavy PRD draft / infographics) | **B** | Proceed with infographic generation inside draft PRD |
 | `spec-draft-prd` [+ optional `spec-refine-prd`] | **C** | Start **`spec-architecture-stack`** |
@@ -202,6 +212,7 @@ if Sheets is the sole target, or run Sheets after Jira/GitHub story export compl
 
 ## Final outputs
 Generate and/or update:
+- `outputs/notion-input.md` — when Notion URLs/search were provided
 - `outputs/clarifications.md`
 - `outputs/prd.md`
 - `outputs/prd.spec.yaml`
@@ -221,7 +232,13 @@ If export targets are confirmed, run export mapping via `spec-sync-trackers`.
 ```text
 Use #file:skills/spec-full-workflow/SKILL.md
 
-Input: [paste RFP text or #file:path]
+Input: [paste requirements text or #file:path]
+# or Notion meeting notes:
+Notion search: "product discovery workshop"
+# or
+Notion URLs:
+- https://www.notion.so/workspace/Meeting-Notes-abc123...
+
 PRD target: local-md
 Stories target: local-md
 ```

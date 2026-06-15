@@ -11,6 +11,7 @@ and `outputs/stories.md`. They must stay **traceability-aligned**: every `FR-*` 
 | Spec digest | `outputs/spec-digest.md` | `spec-draft-prd`, updated by `spec-refine-prd` / `spec-user-stories` / `spec-update` |
 | Spec changelog | `outputs/spec-changelog.md` | `spec-draft-prd` (seed), append-only; `spec-refine-prd` / `spec-update` append entries |
 | Update delta | `outputs/update-delta.md` | `spec-update` (audit trail of incoming changes) |
+| Notion capture | `outputs/notion-input.md` | `spec-notion-input` (meeting notes from Notion MCP) |
 
 Skeleton templates: `templates/prd.spec.yaml`, `templates/stories.spec.yaml`.  
 Worked examples for tests: `examples/minimal-prd.spec.yaml`, `examples/minimal-stories.spec.yaml`.

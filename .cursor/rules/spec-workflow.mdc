@@ -15,8 +15,10 @@ Default mode: run the **full workflow** skill once. The skill opens with a **Pla
 
 When artifacts already exist in `outputs/` and the user brings **new information later**, use **`spec-update`** instead (see `skills/spec-update/SKILL.md`).
 
+When the user provides **Notion page URL(s)** and/or a **search string**, run **`spec-notion-input`** before normalize (initial) or before the update merge — requires Notion MCP (README § Notion meeting notes).
+
 ## Workflow order
-spec-normalize-input -> spec-clarification-pass -> spec-draft-prd -> [spec-refine-prd] -> spec-architecture-stack -> spec-task-breakdown -> spec-user-stories -> spec-bootstrap-repo -> spec-sync-trackers
+[spec-notion-input] -> spec-normalize-input -> spec-clarification-pass -> spec-draft-prd -> [spec-refine-prd] -> spec-architecture-stack -> spec-task-breakdown -> spec-user-stories -> spec-bootstrap-repo -> spec-sync-trackers
 
 ## One-shot execution (recommended)
 Use @.agent/skills/spec-full-workflow/skill.md with your input requirements.

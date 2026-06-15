@@ -13,6 +13,8 @@ use the **update workflow** skill instead.
 
 Use: #file:../.agent/skills/spec-full-workflow/skill.md
 
+Optional Notion meeting notes: provide **Notion URLs** and/or **search string** in the same message (requires Notion MCP — see README § Notion meeting notes). Runs `spec-notion-input` first.
+
 The full workflow skill automatically runs all stages and pauses only at key review
 checkpoints (clarifications, infographic model, PRD, architecture & stack, task breakdown, stories/repo kit, **export preview G**, **per-story export G2** for Jira/GitHub).
 
@@ -20,12 +22,11 @@ checkpoints (clarifications, infographic model, PRD, architecture & stack, task 
 
 Use: #file:../.agent/skills/spec-update/skill.md
 
-Provide the new information (answers, scope changes, stakeholder feedback) and optionally
-which artifacts to refresh. The update workflow merges deltas and keeps YAML specs,
-digest, and changelog aligned.
+Provide new information as pasted text and/or **Notion URLs / search string** (runs `spec-notion-input` with `mode: update` when Notion input is given).
 
 ## Workflow
 
+0. Notion meeting notes (optional): #file:../.agent/skills/spec-notion-input/skill.md
 1. Normalize requirements: #file:../.agent/skills/spec-normalize-input/skill.md
 2. Clarify (mandatory, non-blocking): #file:../.agent/skills/spec-clarification-pass/skill.md
 3. Draft PRD: #file:../.agent/skills/spec-draft-prd/skill.md

@@ -1,6 +1,6 @@
 ---
 name: spec-update
-description: Update existing delivery artifacts when new information arrives after an initial spec run — merge deltas into PRD, architecture, breakdown, stories, YAML specs, digest/changelog, and optionally refresh repo-kit and sync to trackers. Use when `outputs/` already has artifacts and the user provides answers, scope changes, or stakeholder feedback.
+description: Update existing delivery artifacts when new information arrives after an initial spec run — merge deltas into PRD, architecture, breakdown, stories, YAML specs, digest/changelog, and optionally refresh repo-kit and sync to trackers. Use when `outputs/` already has artifacts and the user provides answers, scope changes, stakeholder feedback, or Notion meeting notes (URLs/search via MCP).
 ---
 
 # Update workflow — merge new information into existing artifacts
@@ -15,6 +15,7 @@ Apply **incremental updates** to a spec run that already produced artifacts in
 - Scope additions, removals, or priority changes
 - New constraints (timeline, compliance, integrations)
 - Architecture or stack decisions revised after checkpoint D
+- **Notion meeting notes** — new pages or search hits since the last run (via **`spec-notion-input`**)
 
 This skill **does not** re-run the full pipeline from scratch unless the user
 requests a full refresh. It assesses impact, merges deltas, and refreshes only
@@ -51,7 +52,7 @@ If **`outputs/prd.md`** is missing, stop and tell the user to run
 Provide:
 
 1. **New information** — pasted text, bullet list, Q# → answer pairs, review
-   comments, or `#file:…` reference.
+   comments, `#file:…` reference, and/or **Notion input** (see below).
 2. **Scope hint** (optional):
    - `auto` (default) — you assess impact and propose refresh depth
    - `prd-only` — PRD + YAML + digest/changelog only
@@ -59,13 +60,32 @@ Provide:
    - `full` — through stories, repo-kit, and optional sync
 3. **Export targets** (optional) — same as `spec-sync-trackers` when scope includes sync.
 
+### Notion input (optional)
+
+Instead of (or in addition to) pasted text, provide:
+
+| Input | Example |
+|-------|---------|
+| **Notion page URL(s)** | one or more `https://www.notion.so/…` links |
+| **Search string** | `"sprint 12 retro notes"` |
+
+When Notion URLs and/or search are present:
+
+1. Run **`spec-notion-input`** with `mode: update` **before** impact assessment.
+2. Use `#file:outputs/notion-input.md` (newest capture section) as the primary
+   **new information** source for the delta merge.
+3. If search returns 2+ pages, complete **`spec-notion-input`** disambiguation
+   (checkpoint **N**) before continuing.
+
+Requires Notion MCP (README § Notion meeting notes).
+
 ## Impact assessment — do this first
 
 Emit an **Update planning summary** (informational; not a hard pause unless
 impact is unclear):
 
 ### Update planning summary
-- **Trigger** — One sentence on what new information was received.
+- **Trigger** — One sentence on what new information was received (include Notion page titles if fetched).
 - **Artifacts on disk** — Bullets: which `outputs/` files exist vs missing.
 - **Impact tier** — One of:
   - **T1 PRD** — wording, assumptions, FR/NFR edits; no new epics/features
@@ -88,7 +108,8 @@ Then proceed with execution rules.
 
 You are an orchestrating product+delivery agent updating an **existing** spec run.
 
-1. **Capture the delta** — Write or append `outputs/update-delta.md` with:
+1. **Capture the delta** — If Notion input was used, **`spec-notion-input`** already
+   wrote **`outputs/notion-input.md`**. Write or append `outputs/update-delta.md` with:
    - date, source (user paste / file / meeting notes)
    - categorized changes: scope, requirements, constraints, decisions, open items
    - mapping to affected FR/NFR/Story ids where known
@@ -192,6 +213,7 @@ asks for a full re-export; mark unchanged stories `skipped` in the manifest.
 
 Update in place (and create if missing):
 
+- `outputs/notion-input.md` — when Notion URLs/search were used
 - `outputs/update-delta.md` — audit trail of incoming information
 - `outputs/clarifications.md` — if it existed
 - `outputs/prd.md`, `outputs/prd.spec.yaml`
@@ -207,12 +229,19 @@ Update in place (and create if missing):
 ```text
 Use #file:skills/spec-update/SKILL.md
 
-New information:
-- Q3 answer: SSO must use SAML 2.0 with Okta
-- Add FR-12: Admin can export audit logs as CSV
-- Remove out-of-scope mobile native apps (web responsive only)
-
+Notion search: "stakeholder review follow-up"
 Scope: auto
+```
+
+Or with pasted text and a specific page:
+
+```text
+Use #file:skills/spec-update/SKILL.md
+
+Notion URLs:
+- https://www.notion.so/workspace/Architecture-review-abc123...
+
+Scope: prd+breakdown
 ```
 
 ## Next step

@@ -108,6 +108,118 @@ directories are symlinked to `skills/`:
 - `.cursor/skills`
 - `.github/skills`
 
+## Notion meeting notes (optional input)
+
+Pull **meeting notes** from Notion into the pipeline using the official
+[Notion MCP](https://developers.notion.com/guides/mcp/overview) server. Works for
+**initial runs** (`spec-full-workflow`) and **updates** (`spec-update`).
+
+You can pass either:
+
+- **Notion page URL(s)** — fetch known pages directly
+- **Search string** — search your workspace; if several pages match, pick from a table
+- **Both** — always include listed URLs plus any extra pages from search
+
+Fetched content is written to **`outputs/notion-input.md`**, then normalized like
+any other requirements input.
+
+### Install Notion MCP
+
+Full reference: [`docs/integration/notion.md`](docs/integration/notion.md)
+
+#### Cursor (recommended)
+
+1. Open **Cursor Settings → MCP → Add new global MCP server**
+2. Paste:
+
+```json
+{
+  "mcpServers": {
+    "notion": {
+      "url": "https://mcp.notion.com/mcp"
+    }
+  }
+}
+```
+
+3. Save and **restart Cursor**
+4. On first use of a Notion tool, complete the **OAuth** flow in the browser
+
+**Team / project config:** copy [`.cursor/mcp.json.example`](.cursor/mcp.json.example)
+to `.cursor/mcp.json` in this repo (each teammate still authorizes OAuth locally).
+
+#### VS Code / GitHub Copilot
+
+Create `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
+    }
+  }
+}
+```
+
+Command Palette → **MCP: List Servers** → start Notion → complete OAuth.
+
+#### Claude Code
+
+```bash
+claude mcp add --transport http notion https://mcp.notion.com/mcp
+```
+
+Run `/mcp` in Claude Code and authenticate.
+
+#### Other MCP clients (stdio-only)
+
+If your client does not support remote HTTP MCP servers:
+
+```json
+{
+  "mcpServers": {
+    "notion": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.notion.com/mcp"]
+    }
+  }
+}
+```
+
+### Run with Notion input
+
+**Initial pipeline:**
+
+```text
+Use #file:skills/spec-full-workflow/SKILL.md
+
+Notion search: "Q2 product discovery notes"
+```
+
+```text
+Use #file:skills/spec-full-workflow/SKILL.md
+
+Notion URLs:
+- https://www.notion.so/myworkspace/Sprint-Planning-abc123def4567890abcdef1234567890
+```
+
+**Update pipeline:**
+
+```text
+Use #file:skills/spec-update/SKILL.md
+
+Notion search: "architecture review follow-up"
+Scope: auto
+```
+
+Install the Notion fetch skill explicitly (optional):
+
+```bash
+skillfish add alxp1982/RFP_Workflow spec-notion-input
+```
+
 ## Recommended mode: full pipeline (one shot)
 
 Use the **full pipeline** skill (`spec-full-workflow`) to execute the full chain with human-in-the-loop
@@ -118,6 +230,11 @@ checkpoints, risks) for alignment—similar to planning mode—then runs the sta
 Use #file:skills/spec-full-workflow/SKILL.md
 
 Input: [paste requirements text or #file:path]
+# or Notion meeting notes:
+Notion search: "discovery workshop"
+Notion URLs:
+- https://www.notion.so/...
+
 PRD target: local-md | google-sheets | <mcp-target>
 Stories target: local-md | github | jira | <mcp-target>
 ```
@@ -134,6 +251,9 @@ information** (clarification answers, review comments, scope changes), use
 Use #file:skills/spec-update/SKILL.md
 
 New information: [paste answers, feedback, or scope changes]
+# or Notion:
+Notion search: "sprint retro action items"
+
 Scope: auto | prd-only | prd+breakdown | full
 ```
 
@@ -168,7 +288,10 @@ agent defaults. The **`spec-bootstrap-repo`** skill defines exact paths and plac
 ## Skills pipeline
 
 ```
-Requirements input (file or text)
+Requirements input (file, text, or Notion via MCP)
+       |
+       v
+[spec-notion-input]     -> outputs/notion-input.md (optional)
        |
        v
 spec-normalize-input      -> normalize requirements
@@ -255,6 +378,7 @@ skills/
   spec-workflow/SKILL.md                Repo entry — full pipeline or update workflow
   spec-full-workflow/SKILL.md           One-shot pipeline with human checkpoints
   spec-update/SKILL.md                  Merge new info into existing artifacts
+  spec-notion-input/SKILL.md            Fetch meeting notes from Notion (MCP)
   spec-normalize-input/SKILL.md         Turn raw input into structured requirements
   spec-clarification-pass/SKILL.md      Questions + assumptions (non-blocking)
   spec-draft-prd/SKILL.md               Write PRD from requirements
@@ -280,6 +404,7 @@ templates/
 docs/
   architecture.md            Pipeline design notes
   integration/
+    notion.md                  Notion MCP input (meeting notes)
     google-sheets.md         Sheets export mapping
     github-projects.md       GitHub Projects export mapping
     jira.md                  Jira export mapping
@@ -297,6 +422,7 @@ examples/
   hard stop.
 - **Fixed hierarchy.** PRD → architecture & stack → Epic → Feature → Story → Task — every time.
 - **Traceable.** Every artifact carries `assumptions` and `open_questions`.
+- **Notion input.** Optional **`spec-notion-input`** fetches meeting notes via MCP (URLs or search) for initial runs and updates.
 - **Incremental updates.** `spec-update` merges late-arriving information without restarting from scratch.
 - **Export review gates.** Checkpoint **G** shows epic/story summary tables; **G2** reviews each story before Jira/GitHub create.
 - **Flexible output targets.** Default local markdown; export skills handle

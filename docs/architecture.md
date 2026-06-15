@@ -45,7 +45,8 @@ Only these checkpoints pause execution. All other stages run automatically.
 
 | Stage | Skill | Input | Output |
 |---|---|---|---|
-| Normalize | spec-normalize-input | raw text / file | normalized requirements |
+| Notion fetch (optional) | spec-notion-input | Notion URLs / search | notion-input.md |
+| Normalize | spec-normalize-input | text / file / notion-input.md | normalized requirements |
 | Clarify | spec-clarification-pass | normalized reqs | clarifications.md |
 | PRD Draft | spec-draft-prd | reqs + clarifications | prd.md |
 | PRD Refine | spec-refine-prd | prd + answers | prd.md (updated) |

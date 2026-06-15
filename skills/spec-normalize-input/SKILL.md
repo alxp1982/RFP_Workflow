@@ -1,6 +1,6 @@
 ---
 name: spec-normalize-input
-description: Parse raw requirements input (pasted text or a file like requirements.pdf / requirements.md) into a structured, normalized requirements summary covering functional requirements, non-functional requirements, stakeholders, and constraints. Use as the first step of the spec workflow.
+description: Parse raw requirements input (pasted text, a local file, or `outputs/notion-input.md` from **spec-notion-input**) into a structured, normalized requirements summary covering functional requirements, non-functional requirements, stakeholders, and constraints. Use as the first step of the spec workflow (after Notion fetch when applicable).
 ---
 
 # Normalize input — structured requirements
@@ -13,6 +13,7 @@ requirements summary ready for downstream skills.
 Provide ONE of:
 - The full text of the requirements pasted directly into the chat.
 - A file reference (e.g. `#file:requirements.pdf` or `#file:examples/sample-rfp.md`).
+- **`outputs/notion-input.md`** after **`spec-notion-input`** fetched meeting notes from Notion (treat the combined page bodies as the requirements source).
 
 ## Instructions
 
