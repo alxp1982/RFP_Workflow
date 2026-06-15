@@ -1,5 +1,5 @@
 ---
-name: rfp-draft-prd
+name: spec-draft-prd
 description: Generate a complete Product Requirements Document from normalized requirements and a clarification report. Includes proposed-solution infographics (via GenerateImage or Mermaid), preserves FR/NFR traceability, and emits `prd.spec.yaml`, `spec-digest.md`, and `spec-changelog.md`.
 ---
 
@@ -10,8 +10,8 @@ Generate a full Product Requirements Document from normalized requirements and
 the clarification report.
 
 ## Inputs
-- Normalized requirements from **rfp-normalize-rfp**.
-- Clarification report from **rfp-clarification-pass**.
+- Normalized requirements from **spec-normalize-input**.
+- Clarification report from **spec-clarification-pass**.
 - Optional: PRD template file (`#file:templates/prd.md`).
 - Image-generation skill `nano-banana` (use it when available in the environment).
 
@@ -107,6 +107,6 @@ Key sections that must be present:
 - Changelog
 
 ## Next step
-- If clarification answers are available: go to **rfp-refine-prd** (it will refresh
+- If clarification answers are available: go to **spec-refine-prd** (it will refresh
   `prd.spec.yaml`, `spec-digest.md`, and append `spec-changelog.md`).
-- Otherwise: go to **rfp-architecture-stack** (PRD is ready for architecture and stack options before decomposition).
+- Otherwise: go to **spec-architecture-stack** (PRD is ready for architecture and stack options before decomposition).

@@ -1,5 +1,5 @@
 ---
-name: rfp-architecture-stack
+name: spec-architecture-stack
 description: After PRD approval, produce a high-level solution architecture and compare multiple technology-stack options so stakeholders can choose before task decomposition.
 ---
 
@@ -10,13 +10,13 @@ description: After PRD approval, produce a high-level solution architecture and 
 Translate an approved PRD into a **high-level architecture** (containers, major
 integrations, data flows, deployment shape) and a **technology stack decision
 package**: several credible **stack options** with an explicit **comparison** and a
-**recommended default**, so the human can pick (or edit) before **`rfp-task-breakdown`**
+**recommended default**, so the human can pick (or edit) before **`spec-task-breakdown`**
 locks engineering assumptions into epics and tasks.
 
 ## When to run
 
-- **Automatically** in **`rfp-full-workflow`** immediately after **checkpoint C**
-  (PRD approved or refined) and **before** **`rfp-task-breakdown`**.
+- **Automatically** in **`spec-full-workflow`** immediately after **checkpoint C**
+  (PRD approved or refined) and **before** **`spec-task-breakdown`**.
 - May be run standalone when the user asks for architecture / stack options only.
 
 ## Inputs
@@ -90,5 +90,5 @@ asks to remove it.
 ## Next step
 
 After **checkpoint D** is cleared and **`outputs/architecture.md`** reflects the
-selected stack, run **`rfp-task-breakdown`** (which must align tasks with that
+selected stack, run **`spec-task-breakdown`** (which must align tasks with that
 architecture).

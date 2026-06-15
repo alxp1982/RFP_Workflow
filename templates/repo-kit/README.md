@@ -1,12 +1,12 @@
 # {{PROJECT_NAME}} — generated repo kit
 
-This folder was produced by the **RFP Workflow** `rfp-bootstrap-repo` step. It is
+This folder was produced by the **Spec Workflow** `spec-bootstrap-repo` step. It is
 meant to be copied **as the root of a new product repository** (or merged into
 an empty repo) so coding agents inherit **spec-driven** context: backlog, PRD,
 stories, and **Cursor / Claude Code / GitHub Copilot** hooks aligned to this product.
 
 **Note:** The `.cursor/`, `.claude/`, and `docs/` paths below are for the **product**
-repository after you copy this kit—they are **not** part of the RFP Workflow repo’s
+repository after you copy this kit—they are **not** part of the Spec Workflow repo’s
 own `skills/` pipeline; they only take effect in the new repo’s root.
 
 ## How to use

@@ -10,7 +10,7 @@
 ---
 
 ## Revision Notes
-<!-- Added by rfp-refine-prd -->
+<!-- Added by spec-refine-prd -->
 
 ---
 

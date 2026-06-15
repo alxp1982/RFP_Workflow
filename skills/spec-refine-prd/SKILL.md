@@ -1,5 +1,5 @@
 ---
-name: rfp-refine-prd
+name: spec-refine-prd
 description: Refine an existing PRD draft by incorporating answers to clarification questions. Updates scope, assumptions, and open questions while preserving FR/NFR traceability IDs; keeps `prd.spec.yaml`, `spec-digest.md`, and `spec-changelog.md` aligned.
 ---
 
@@ -9,7 +9,7 @@ description: Refine an existing PRD draft by incorporating answers to clarificat
 Refine the PRD draft by incorporating answers to clarification questions.
 
 ## Inputs
-- PRD draft from **rfp-draft-prd** (paste or `#file:outputs/prd.md`).
+- PRD draft from **spec-draft-prd** (paste or `#file:outputs/prd.md`).
 - Answered clarification questions (paste answers directly).
 
 ## Instructions
@@ -46,4 +46,4 @@ Add at the top of the PRD markdown:
 ```
 
 ## Next step
-Go to **rfp-architecture-stack** (then **rfp-task-breakdown** after stack selection in the full workflow).
+Go to **spec-architecture-stack** (then **spec-task-breakdown** after stack selection in the full workflow).

@@ -1,5 +1,5 @@
 ---
-name: rfp-user-stories
+name: spec-user-stories
 description: Generate Gherkin-style acceptance stories (user story, scenario, acceptance criteria) for every Story in the task breakdown, plus `stories.spec.yaml` and digest/changelog updates; ready for export to GitHub Projects or Jira.
 ---
 
@@ -85,9 +85,9 @@ Feature: <feature title>
 ---
 ```
 
-Also produce an export block at the end (see **rfp-sync-trackers** for destinations).
+Also produce an export block at the end (see **spec-sync-trackers** for destinations).
 
 ## Next step
-Go to **rfp-sync-trackers** to push stories to GitHub Projects, Jira, or Google Sheets.
+Go to **spec-sync-trackers** to push stories to GitHub Projects, Jira, or Google Sheets.
 
-When running the **full workflow**, **rfp-bootstrap-repo** runs next and builds **`outputs/repo-kit/`** (copy that tree into a new product repository root for spec-driven development).
+When running the **full workflow**, **spec-bootstrap-repo** runs next and builds **`outputs/repo-kit/`** (copy that tree into a new product repository root for spec-driven development).

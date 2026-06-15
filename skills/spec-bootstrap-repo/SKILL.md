@@ -1,5 +1,5 @@
 ---
-name: rfp-bootstrap-repo
+name: spec-bootstrap-repo
 description: After PRD, breakdown, and stories exist, emit outputs/repo-kit/ — a self-contained tree (AGENTS.md, spec/, and Cursor / Claude Code / GitHub Copilot hooks) ready to copy into a fresh product repository for AI spec-driven development.
 ---
 
@@ -12,7 +12,7 @@ Materialize **`outputs/repo-kit/`**: a **portable folder** the user can copy to 
 
 **Important:** Everything under **`templates/repo-kit/`** (including nested `.cursor/`,
 `.claude/`, `docs/`, and any `SKILL.md` files there) is **scaffolding for the destination
-product repository only**. Those paths are **not** RFP Workflow pipeline skills in
+product repository only**. Those paths are **not** Spec Workflow pipeline skills in
 this repo and are **not** meant to be run from `skills/` here—they are copied into
 `outputs/repo-kit/` so the **new** product repo has its own agent rules and skills.
 
@@ -37,15 +37,15 @@ so `repo-kit/` is self-contained after copy.
 
 ## When to run
 
-- **Automatically** as part of **`rfp-full-workflow`** only **after checkpoint F**
+- **Automatically** as part of **`spec-full-workflow`** only **after checkpoint F**
   (stories/spec approval and explicit authorization to materialize the repo kit), and
-  **before** **`rfp-sync-trackers`**.
+  **before** **`spec-sync-trackers`**.
 - May also be invoked alone when the user asks to “refresh the repo kit” after edits
   to `outputs/prd.md` / `outputs/architecture.md` / stories / breakdown.
 
 ## Inputs
 
-Read from this RFP workflow workspace:
+Read from this spec workflow workspace:
 
 - `outputs/prd.md`
 - `outputs/stories.md`
@@ -113,4 +113,4 @@ After this step, tell the user:
 
 ## Next step
 
-Continue to **`rfp-sync-trackers`** if the full workflow is running and export was confirmed.
+Continue to **`spec-sync-trackers`** if the full workflow is running and export was confirmed.

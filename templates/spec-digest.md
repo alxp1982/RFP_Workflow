@@ -1,7 +1,7 @@
 # Spec digest — <project-name>
 
 > Agent default context (~1–2 minute read). Regenerate when `prd.md` changes materially.
-> See `docs/spec-schema.md` and skill **`rfp-draft-prd`** / **`rfp-refine-prd`**.
+> See `docs/spec-schema.md` and skill **`spec-draft-prd`** / **`spec-refine-prd`**.
 
 ## One-line outcome
 

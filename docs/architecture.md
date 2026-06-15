@@ -13,17 +13,31 @@ automatically with human-in-the-loop checkpoints.
 - Clarification stage is mandatory on every input.
 - Clarifications are non-blocking. Findings become assumptions.
 - Default outputs: local markdown in `outputs/`.
-- External exports handled by `rfp-sync-trackers` with MCP or manual CSV/JSON.
-- Recommended entrypoint: `skills/rfp-full-workflow/SKILL.md`.
+- External exports handled by `spec-sync-trackers` with MCP or manual CSV/JSON.
+- Recommended entrypoint: `skills/spec-full-workflow/SKILL.md`.
+- Incremental updates: `skills/spec-update/SKILL.md` when `outputs/` already exists.
+
+## Update workflow (incremental)
+
+When new information arrives after an initial run, **`spec-update`**:
+
+1. Reads existing `outputs/` artifacts.
+2. Writes `outputs/update-delta.md` as an audit trail.
+3. Assesses impact tier (T1 PRD → T4 full downstream).
+4. Invokes only affected stage skills (`spec-refine-prd`, architecture, breakdown, stories, repo-kit, sync).
+5. Appends to `outputs/spec-changelog.md` (never deletes history).
+
+Checkpoints **U0–U5** gate wide-reaching changes; see `skills/spec-update/SKILL.md`.
 
 ## Orchestration checkpoint model
 - Checkpoint A: Clarifications review and optional answers.
 - Checkpoint B: Infographics model (before PRD draft).
 - Checkpoint C: PRD draft approval / edit.
-- Checkpoint D: Architecture and technology stack selection (after `rfp-architecture-stack`).
+- Checkpoint D: Architecture and technology stack selection (after `spec-architecture-stack`).
 - Checkpoint E: Task breakdown approval / edit.
 - Checkpoint F: Stories / YAML specs / repo kit authorization.
-- Checkpoint G: Export / sync target confirmation.
+- Checkpoint G: Export preview — epic and story summary tables before sync.
+- Checkpoint G2: Per-story export review (Jira / GitHub — approve, skip, or edit each issue before create).
 
 Only these checkpoints pause execution. All other stages run automatically.
 
@@ -31,15 +45,16 @@ Only these checkpoints pause execution. All other stages run automatically.
 
 | Stage | Skill | Input | Output |
 |---|---|---|---|
-| Normalize | rfp-normalize-rfp | raw text / file | normalized requirements |
-| Clarify | rfp-clarification-pass | normalized reqs | clarifications.md |
-| PRD Draft | rfp-draft-prd | reqs + clarifications | prd.md |
-| PRD Refine | rfp-refine-prd | prd + answers | prd.md (updated) |
-| Architecture | rfp-architecture-stack | prd (+ optional prd.spec.yaml) | architecture.md |
-| Decompose | rfp-task-breakdown | prd.md + architecture.md | task-breakdown.md |
-| Stories | rfp-user-stories | task-breakdown.md | stories.md |
-| Bootstrap kit | rfp-bootstrap-repo | prd, breakdown, stories, … | outputs/repo-kit/ |
-| Export / sync | rfp-sync-trackers | stories + breakdown | tracker items |
+| Normalize | spec-normalize-input | raw text / file | normalized requirements |
+| Clarify | spec-clarification-pass | normalized reqs | clarifications.md |
+| PRD Draft | spec-draft-prd | reqs + clarifications | prd.md |
+| PRD Refine | spec-refine-prd | prd + answers | prd.md (updated) |
+| Architecture | spec-architecture-stack | prd (+ optional prd.spec.yaml) | architecture.md |
+| Decompose | spec-task-breakdown | prd.md + architecture.md | task-breakdown.md |
+| Stories | spec-user-stories | task-breakdown.md | stories.md |
+| Bootstrap kit | spec-bootstrap-repo | prd, breakdown, stories, … | outputs/repo-kit/ |
+| Export / sync | spec-sync-trackers | stories + breakdown | tracker items |
+| Update | spec-update | existing outputs + new info | delta merge + refreshed artifacts |
 
 ## Traceability
 - FR/NFR IDs from the normalize step flow through PRD -> architecture -> task breakdown -> stories.
@@ -54,14 +69,14 @@ patterns in tools that support them (e.g. a parent agent that spawns children wi
 narrow prompts and merged results).
 
 **Good subagent candidates** (heavy, separable context):
-- **`rfp-draft-prd`** — large PRD + optional image generation; isolates long context.
-- **`rfp-architecture-stack`** — cross-cutting technical decisions and stack tradeoffs.
-- **`rfp-task-breakdown`** — deep hierarchy from full PRD + locked stack; benefits from focused context.
-- **`rfp-user-stories`** — many stories from breakdown; parallelizable per epic *if* you split inputs (careful with ID consistency).
+- **`spec-draft-prd`** — large PRD + optional image generation; isolates long context.
+- **`spec-architecture-stack`** — cross-cutting technical decisions and stack tradeoffs.
+- **`spec-task-breakdown`** — deep hierarchy from full PRD + locked stack; benefits from focused context.
+- **`spec-user-stories`** — many stories from breakdown; parallelizable per epic *if* you split inputs (careful with ID consistency).
 
 **Usually keep on the parent** (short, coordination-heavy):
-- **`rfp-full-workflow`** — owns checkpoints A–G and user dialogue.
-- **`rfp-normalize-rfp`** / **`rfp-clarification-pass`** — fast; often cheaper to run inline unless you deliberately sandbox parsing.
+- **`spec-full-workflow`** / **`spec-update`** — owns checkpoints and user dialogue.
+- **`spec-normalize-input`** / **`spec-clarification-pass`** — fast; often cheaper to run inline unless you deliberately sandbox parsing.
 
 **If you use subagents**, the **parent** should still: own HITL pauses, pass explicit
 file paths or pasted artifacts into each child prompt, require children to respect

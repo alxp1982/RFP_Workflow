@@ -6,10 +6,11 @@ and `outputs/stories.md`. They must stay **traceability-aligned**: every `FR-*` 
 
 | Artifact | Path | Produced by |
 |----------|------|-------------|
-| PRD spec | `outputs/prd.spec.yaml` | `rfp-draft-prd`, updated by `rfp-refine-prd` |
-| Stories spec | `outputs/stories.spec.yaml` | `rfp-user-stories` |
-| Spec digest | `outputs/spec-digest.md` | `rfp-draft-prd`, updated by `rfp-refine-prd` / `rfp-user-stories` |
-| Spec changelog | `outputs/spec-changelog.md` | `rfp-draft-prd` (seed), append-only thereafter |
+| PRD spec | `outputs/prd.spec.yaml` | `spec-draft-prd`, updated by `spec-refine-prd` / `spec-update` |
+| Stories spec | `outputs/stories.spec.yaml` | `spec-user-stories`, updated by `spec-update` |
+| Spec digest | `outputs/spec-digest.md` | `spec-draft-prd`, updated by `spec-refine-prd` / `spec-user-stories` / `spec-update` |
+| Spec changelog | `outputs/spec-changelog.md` | `spec-draft-prd` (seed), append-only; `spec-refine-prd` / `spec-update` append entries |
+| Update delta | `outputs/update-delta.md` | `spec-update` (audit trail of incoming changes) |
 
 Skeleton templates: `templates/prd.spec.yaml`, `templates/stories.spec.yaml`.  
 Worked examples for tests: `examples/minimal-prd.spec.yaml`, `examples/minimal-stories.spec.yaml`.
@@ -53,7 +54,7 @@ this doc together.
 | `product_name` | string | yes |
 | `prd_status` | string | yes — e.g. `draft`, `revised`, `final` |
 | `updated_at` | string (ISO date) | yes |
-| `source` | string | optional — e.g. `rfp-workflow` |
+| `source` | string | optional — e.g. `spec-workflow` |
 
 ### `scope`
 
@@ -157,8 +158,8 @@ Regenerate when `prd.md` changes materially; **do not** duplicate full PRD prose
 
 ## Repo kit (`outputs/repo-kit/`)
 
-`rfp-bootstrap-repo` copies **`templates/repo-kit/`** into **`outputs/repo-kit/`** so you can paste that tree into a **new product repository’s root** (`spec/`, `AGENTS.md`, product-only Cursor/Claude rules and skills, Copilot instructions, optional `docs/` for the product codebase, and so on).
+`spec-bootstrap-repo` copies **`templates/repo-kit/`** into **`outputs/repo-kit/`** so you can paste that tree into a **new product repository’s root** (`spec/`, `AGENTS.md`, product-only Cursor/Claude rules and skills, Copilot instructions, optional `docs/` for the product codebase, and so on).
 
-**These kit files are not RFP Workflow skills.** They do not live under this repository’s
+**These kit files are not Spec Workflow skills.** They do not live under this repository’s
 `skills/` pipeline; they exist only as **templates** until materialized into `outputs/repo-kit/`
 and copied out. Full layout: **`templates/repo-kit/README.md`**.

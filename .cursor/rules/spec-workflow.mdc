@@ -1,0 +1,47 @@
+---
+description: Spec Workflow Skills - rules for turning requirements input into PRDs, breakdowns, stories, and machine-readable specs
+globs: [".agent/skills/**", "outputs/**", "templates/**", "docs/spec-schema.md"]
+alwaysApply: true
+---
+
+# Spec Workflow
+
+This workspace contains prompt-based skills for transforming raw requirements input into
+PRDs, task breakdowns, Gherkin stories, and **machine-readable YAML** (`prd.spec.yaml`,
+`stories.spec.yaml`) plus **`spec-digest.md`** / **`spec-changelog.md`** for agent context.
+See **`docs/spec-schema.md`**.
+
+Default mode: run the **full workflow** skill once. The skill opens with a **Planning summary** (no pause), then runs the pipeline and **stops at human checkpoints A–G, G2** (see `skills/spec-full-workflow/SKILL.md`): clarifications, infographic model, PRD, architecture & stack, decomposition, **stories/spec + repo-kit authorization**, export preview, **per-story export review** (Jira/GitHub), then sync. Do not skip gates unless the user explicitly opts out.
+
+When artifacts already exist in `outputs/` and the user brings **new information later**, use **`spec-update`** instead (see `skills/spec-update/SKILL.md`).
+
+## Workflow order
+spec-normalize-input -> spec-clarification-pass -> spec-draft-prd -> [spec-refine-prd] -> spec-architecture-stack -> spec-task-breakdown -> spec-user-stories -> spec-bootstrap-repo -> spec-sync-trackers
+
+## One-shot execution (recommended)
+Use @.agent/skills/spec-full-workflow/skill.md with your input requirements.
+The full workflow skill emits a **Planning summary** first, then pauses at human checkpoints (clarifications, infographic model, PRD, architecture & stack, decomposition, **stories + repo kit**, export).
+
+## Update execution (existing artifacts)
+Use @.agent/skills/spec-update/skill.md with the new information and optional scope hint.
+The update workflow assesses impact, merges deltas, and refreshes only the affected downstream artifacts.
+
+## Fixed rules
+- Hierarchy is always: Epic -> Feature -> Story -> Task. Never deviate.
+- Clarification pass ALWAYS runs on **initial** full runs. **`spec-clarification-pass`** is non-blocking for *workflow continuation* (assumptions if unanswered), but **checkpoint A** still requires the user to **reply** (answers or “continue with assumptions”) before drafting the PRD.
+- Every artifact must include `## Assumptions` and `## Open Questions` sections.
+- Outputs go to the `outputs/` directory, including **`outputs/prd.spec.yaml`**, **`outputs/stories.spec.yaml`**, **`outputs/spec-digest.md`**, **`outputs/spec-changelog.md`**, and **`outputs/repo-kit/`** after a full run (copy `repo-kit/` into a new product repo root when bootstrapping code). **`templates/repo-kit/`** holds **product-repo-only** scaffold (nested `.cursor/` / `.claude/` / `docs/` there are for the *destination* repo, not spec pipeline skills in this workspace).
+- Use templates from the `templates/` directory (including **`templates/repo-kit/`** for the portable repo scaffold, and **`templates/prd.spec.yaml`** / **`templates/stories.spec.yaml`** for YAML shape).
+- **`outputs/spec-changelog.md`** is append-only; every update run adds a newest-first dated entry.
+
+## How to invoke a skill
+Open the skill file (e.g. `.agent/skills/spec-draft-prd/skill.md`) then press Cmd+L and
+say: "Run this skill with the following input: [paste text]"
+
+Or in chat, reference the skill file directly:
+"Use @.agent/skills/spec-draft-prd/skill.md and apply it to: [paste text]"
+
+## Export targets
+- Google Sheets: task-breakdown CSV block via Sheets MCP or manual import.
+- GitHub Projects: stories as issues via GitHub MCP or JSON import.
+- Jira: stories as issues via Jira MCP or CSV import.

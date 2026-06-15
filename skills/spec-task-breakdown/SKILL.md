@@ -1,5 +1,5 @@
 ---
-name: rfp-task-breakdown
+name: spec-task-breakdown
 description: Decompose a finalized PRD into a hierarchical technical implementation plan using the fixed hierarchy Epic -> Feature -> Story -> Task, with complexity estimates, dependencies, and PRD traceability.
 ---
 
@@ -66,4 +66,4 @@ Task,T01.01.01.01,...,S01.01.01,...
 ```
 
 ## Next step
-Go to **rfp-user-stories**.
+Go to **spec-user-stories**.

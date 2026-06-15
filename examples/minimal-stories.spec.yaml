@@ -2,7 +2,7 @@ spec_version: 1
 meta:
   product_name: "Acme Portal"
   updated_at: "2026-05-01"
-  source: rfp-workflow
+  source: spec-workflow
 
 stories:
   - id: S01.01.01

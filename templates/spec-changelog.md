@@ -7,4 +7,4 @@ See `docs/spec-schema.md`.
 
 ### YYYY-MM-DD — Initial baseline
 
-- Seeded `prd.spec.yaml`, `spec-digest.md`, and this log from **rfp-draft-prd**.
+- Seeded `prd.spec.yaml`, `spec-digest.md`, and this log from **spec-draft-prd**.

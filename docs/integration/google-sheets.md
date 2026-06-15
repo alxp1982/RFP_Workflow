@@ -17,7 +17,7 @@
 
 ## Via MCP
 If a Google Sheets MCP is available, use the instructions in
-`.agent/skills/rfp-sync-trackers/skill.md` (Export A).
+`.agent/skills/spec-sync-trackers/skill.md` (Export A).
 
 ## Manually
 1. Copy the CSV block from `outputs/task-breakdown.md`.

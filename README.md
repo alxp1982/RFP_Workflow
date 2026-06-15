@@ -1,7 +1,7 @@
-# RFP Workflow Skills
+# Spec Workflow Skills
 
-A no-code, zero-setup collection of **AI assistant skills** for analyzing RFPs
-and generating delivery artifacts. Use the skills **inside** GitHub Copilot,
+A no-code, zero-setup collection of **AI assistant skills** for turning requirements
+input into delivery artifacts. Use the skills **inside** GitHub Copilot,
 **Cursor**, and **Claude Code** with no hosted service or extra runtime.
 
 ## Install with Skillfish
@@ -11,13 +11,19 @@ This repository is compatible with [skillfish](https://github.com/knoxgraeme/ski
 Install the full pipeline skill:
 
 ```bash
-skillfish add alxp1982/RFP_Workflow rfp-full-workflow
+skillfish add alxp1982/RFP_Workflow spec-full-workflow
 ```
 
 Install the umbrella workflow skill:
 
 ```bash
-skillfish add alxp1982/RFP_Workflow rfp-workflow
+skillfish add alxp1982/RFP_Workflow spec-workflow
+```
+
+Install the update workflow skill:
+
+```bash
+skillfish add alxp1982/RFP_Workflow spec-update
 ```
 
 Install all available skills from this repository:
@@ -41,13 +47,13 @@ npx skills add alxp1982/RFP_Workflow --list
 Install the full pipeline skill (pick agents interactively, or pin e.g. Cursor + Claude Code):
 
 ```bash
-npx skills add alxp1982/RFP_Workflow --skill rfp-full-workflow -a cursor -a claude-code -y
+npx skills add alxp1982/RFP_Workflow --skill spec-full-workflow -a cursor -a claude-code -y
 ```
 
 Install the umbrella workflow skill:
 
 ```bash
-npx skills add alxp1982/RFP_Workflow --skill rfp-workflow -a cursor -y
+npx skills add alxp1982/RFP_Workflow --skill spec-workflow -a cursor -y
 ```
 
 Install **every** skill from this repo (non-interactive):
@@ -60,7 +66,7 @@ From a local clone (same as published GitHub layout):
 
 ```bash
 npx skills add . --list
-npx skills add . --skill rfp-full-workflow -y
+npx skills add . --skill spec-full-workflow -y
 ```
 
 The CLI writes into each agent’s configured skills directory (for example **Cursor** uses the paths described under [Supported agents](https://github.com/vercel-labs/skills#supported-agents)). This repo also keeps **`skills/`** as the canonical copy and documents symlinks for other layouts in **Multi-agent scaffold compatibility** below.
@@ -78,13 +84,13 @@ References:
 Install the full pipeline skill:
 
 ```bash
-gh skill install alxp1982/RFP_Workflow rfp-full-workflow
+gh skill install alxp1982/RFP_Workflow spec-full-workflow
 ```
 
 Install the umbrella workflow skill:
 
 ```bash
-gh skill install alxp1982/RFP_Workflow rfp-workflow
+gh skill install alxp1982/RFP_Workflow spec-workflow
 ```
 
 List available skills from this repository:
@@ -104,19 +110,35 @@ directories are symlinked to `skills/`:
 
 ## Recommended mode: full pipeline (one shot)
 
-Use the **full pipeline** skill (`rfp-full-workflow`) to execute the full chain with human-in-the-loop
+Use the **full pipeline** skill (`spec-full-workflow`) to execute the full chain with human-in-the-loop
 checkpoints. It starts with a **Planning summary** (goals, pipeline,
 checkpoints, risks) for alignment—similar to planning mode—then runs the stages.
 
 ```text
-Use #file:skills/rfp-full-workflow/SKILL.md
+Use #file:skills/spec-full-workflow/SKILL.md
 
-Input: [paste RFP text or #file:path]
+Input: [paste requirements text or #file:path]
 PRD target: local-md | google-sheets | <mcp-target>
 Stories target: local-md | github | jira | <mcp-target>
 ```
 
 You do **not** need to invoke each skill manually.
+
+## Update mode: merge new information later
+
+When `outputs/` already has artifacts from a prior run and you receive **new
+information** (clarification answers, review comments, scope changes), use
+**`spec-update`** instead of re-running the full pipeline:
+
+```text
+Use #file:skills/spec-update/SKILL.md
+
+New information: [paste answers, feedback, or scope changes]
+Scope: auto | prd-only | prd+breakdown | full
+```
+
+The update workflow assesses impact (T1 PRD → T4 full downstream), merges deltas,
+keeps FR/NFR/Story ids stable, and appends to **`outputs/spec-changelog.md`**.
 
 ## What it does
 
@@ -134,46 +156,57 @@ Paste raw client requirements and run the skills in sequence to produce:
 | Gherkin stories with acceptance criteria | `outputs/stories.md` |
 | Machine-readable stories spec | `outputs/stories.spec.yaml` |
 | **New product repo kit** (spec-driven baseline: `spec/`, `AGENTS.md`, `CLAUDE.md`, `.cursor/`, `.claude/`, `.github/copilot-instructions.md`) | `outputs/repo-kit/` (copy tree to a fresh repo root) |
-| Export to Google Sheets / GitHub / Jira | via `rfp-sync-trackers` skill |
+| Export to Google Sheets / GitHub / Jira | via `spec-sync-trackers` skill |
 
 ## Bootstrapping a new product repository
 
 After a full pipeline run, **`outputs/repo-kit/`** contains a **ready-to-copy tree**
-for a **new product git repository** (see **`templates/repo-kit/README.md`** for the full layout: `spec/`, `AGENTS.md`, product-only Cursor/Claude rules and **nested** skills, Copilot instructions, optional `docs/` guides, and so on). **Those nested skills and `docs/` are not part of this RFP Workflow repo’s `skills/` pipeline**—they ship only inside the kit for use **after** you copy `repo-kit/` into the product repo root. Copy **the contents of `repo-kit/`** into the root
+for a **new product git repository** (see **`templates/repo-kit/README.md`** for the full layout: `spec/`, `AGENTS.md`, product-only Cursor/Claude rules and **nested** skills, Copilot instructions, optional `docs/` guides, and so on). **Those nested skills and `docs/` are not part of this Spec Workflow repo’s `skills/` pipeline**—they ship only inside the kit for use **after** you copy `repo-kit/` into the product repo root. Copy **the contents of `repo-kit/`** into the root
 of a new empty git repository, commit, and start implementation with spec-driven
-agent defaults. The **`rfp-bootstrap-repo`** skill defines exact paths and placeholder rules.
+agent defaults. The **`spec-bootstrap-repo`** skill defines exact paths and placeholder rules.
 
 ## Skills pipeline
 
 ```
-RFP input (file or text)
+Requirements input (file or text)
        |
        v
-rfp-normalize-rfp      -> normalize requirements
+spec-normalize-input      -> normalize requirements
        |
        v
-rfp-clarification-pass     -> assumptions + open questions (non-blocking)
+spec-clarification-pass     -> assumptions + open questions (non-blocking)
        |
        v
-rfp-draft-prd   -> full PRD markdown
+spec-draft-prd   -> full PRD markdown
        |
        v
-rfp-refine-prd  -> refined PRD after answering questions  (optional)
+spec-refine-prd  -> refined PRD after answering questions  (optional)
        |
        v
-rfp-architecture-stack -> architecture memo + stack comparison + selection
+spec-architecture-stack -> architecture memo + stack comparison + selection
        |
        v
-rfp-task-breakdown   -> Epic -> Feature -> Story -> Task hierarchy
+spec-task-breakdown   -> Epic -> Feature -> Story -> Task hierarchy
        |
        v
-rfp-user-stories     -> Gherkin-style stories + acceptance criteria
+spec-user-stories     -> Gherkin-style stories + acceptance criteria
        |
        v
-rfp-bootstrap-repo   -> portable `outputs/repo-kit/` for a new product git repo
+spec-bootstrap-repo   -> portable `outputs/repo-kit/` for a new product git repo
        |
        v
-rfp-sync-trackers      -> Google Sheets / GitHub Projects / Jira
+spec-sync-trackers      -> Google Sheets / GitHub Projects / Jira
+```
+
+**Update path** (when artifacts already exist):
+
+```
+New information + existing outputs/
+       |
+       v
+spec-update             -> impact assessment + delta merge
+       |
+       +--> spec-refine-prd (+ downstream stages per impact tier)
 ```
 
 ## How to use from your AI tool
@@ -183,10 +216,10 @@ rfp-sync-trackers      -> Google Sheets / GitHub Projects / Jira
 Reference a skill file in Copilot Chat and provide your input:
 
 ```
-Use #file:skills/rfp-draft-prd/SKILL.md
+Use #file:skills/spec-draft-prd/SKILL.md
 
 Requirements:
-[paste RFP text here]
+[paste requirements text here]
 ```
 
 Chain skills across a session using `#file:` for each stage.
@@ -194,7 +227,7 @@ Chain skills across a session using `#file:` for each stage.
 
 ### Cursor
 
-`.cursor/rules/rfp-workflow.mdc` loads automatically. Then:
+`.cursor/rules/spec-workflow.mdc` loads automatically. Then:
 
 ```
 Run the PRD draft skill on the following requirements: [paste text]
@@ -207,7 +240,7 @@ Or open any skill file and use Cmd+L to chat against it directly.
 Reference the installable skill path directly:
 
 ```
-Run #file:skills/rfp-draft-prd/SKILL.md on: [paste RFP text or reference a file]
+Run #file:skills/spec-draft-prd/SKILL.md on: [paste requirements text or reference a file]
 ```
 
 ### Generic (any AI chat)
@@ -219,17 +252,18 @@ append your requirements text.
 
 ```
 skills/
-  rfp-workflow/SKILL.md                Repo entry — points at full pipeline skill
-  rfp-full-workflow/SKILL.md           One-shot pipeline with human checkpoints
-  rfp-normalize-rfp/SKILL.md           Turn raw RFP into structured requirements
-  rfp-clarification-pass/SKILL.md      Questions + assumptions (non-blocking)
-  rfp-draft-prd/SKILL.md               Write PRD from requirements
-  rfp-refine-prd/SKILL.md              Update PRD after clarification answers
-  rfp-architecture-stack/SKILL.md      Architecture + stack options before breakdown
-  rfp-task-breakdown/SKILL.md          Epic → Feature → Story → Task plan
-  rfp-user-stories/SKILL.md            Gherkin-style acceptance stories
-  rfp-bootstrap-repo/SKILL.md          Materialize `outputs/repo-kit/` for a new repo
-  rfp-sync-trackers/SKILL.md           Push artifacts to Sheets / GitHub / Jira
+  spec-workflow/SKILL.md                Repo entry — full pipeline or update workflow
+  spec-full-workflow/SKILL.md           One-shot pipeline with human checkpoints
+  spec-update/SKILL.md                  Merge new info into existing artifacts
+  spec-normalize-input/SKILL.md         Turn raw input into structured requirements
+  spec-clarification-pass/SKILL.md      Questions + assumptions (non-blocking)
+  spec-draft-prd/SKILL.md               Write PRD from requirements
+  spec-refine-prd/SKILL.md              Update PRD after clarification answers
+  spec-architecture-stack/SKILL.md      Architecture + stack options before breakdown
+  spec-task-breakdown/SKILL.md          Epic → Feature → Story → Task plan
+  spec-user-stories/SKILL.md            Gherkin-style acceptance stories
+  spec-bootstrap-repo/SKILL.md          Materialize `outputs/repo-kit/` for a new repo
+  spec-sync-trackers/SKILL.md           Push artifacts to Sheets / GitHub / Jira
 
 templates/
   prd.md                     Canonical PRD template
@@ -241,7 +275,7 @@ templates/
   copilot-instructions.md    Copilot workspace instructions
 
 .cursor/
-  rules/rfp-workflow.mdc     Cursor rules file
+  rules/spec-workflow.mdc     Cursor rules file
 
 docs/
   architecture.md            Pipeline design notes
@@ -263,5 +297,7 @@ examples/
   hard stop.
 - **Fixed hierarchy.** PRD → architecture & stack → Epic → Feature → Story → Task — every time.
 - **Traceable.** Every artifact carries `assumptions` and `open_questions`.
+- **Incremental updates.** `spec-update` merges late-arriving information without restarting from scratch.
+- **Export review gates.** Checkpoint **G** shows epic/story summary tables; **G2** reviews each story before Jira/GitHub create.
 - **Flexible output targets.** Default local markdown; export skills handle
   Sheets / GitHub / Jira.

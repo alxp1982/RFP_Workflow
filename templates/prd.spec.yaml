@@ -5,7 +5,7 @@ meta:
   product_name: ""
   prd_status: draft
   updated_at: "YYYY-MM-DD"
-  source: rfp-workflow
+  source: spec-workflow
 
 scope:
   in_scope: []

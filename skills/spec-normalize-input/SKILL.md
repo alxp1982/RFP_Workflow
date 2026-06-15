@@ -1,22 +1,22 @@
 ---
-name: rfp-normalize-rfp
-description: Parse raw RFP input (pasted text or a file like rfp.pdf / rfp.md) into a structured, normalized requirements summary covering functional requirements, non-functional requirements, stakeholders, and constraints. Use as the first step of the RFP workflow.
+name: spec-normalize-input
+description: Parse raw requirements input (pasted text or a file like requirements.pdf / requirements.md) into a structured, normalized requirements summary covering functional requirements, non-functional requirements, stakeholders, and constraints. Use as the first step of the spec workflow.
 ---
 
-# Normalize RFP — structured requirements
+# Normalize input — structured requirements
 
 ## Purpose
-Parse and normalize raw RFP input (document or text) into a structured
+Parse and normalize raw requirements input (document or text) into a structured
 requirements summary ready for downstream skills.
 
 ## Inputs
 Provide ONE of:
-- The full text of the RFP pasted directly into the chat.
-- A file reference (e.g. `#file:rfp.pdf` or `#file:rfp.md`).
+- The full text of the requirements pasted directly into the chat.
+- A file reference (e.g. `#file:requirements.pdf` or `#file:examples/sample-rfp.md`).
 
 ## Instructions
 
-You are an expert business analyst. Given the raw RFP input below, produce a
+You are an expert business analyst. Given the raw requirements input below, produce a
 normalized requirements summary following the output format exactly.
 
 Rules:
@@ -52,4 +52,4 @@ Rules:
 ```
 
 ## Next step
-Pass the output of this skill to **rfp-clarification-pass**.
+Pass the output of this skill to **spec-clarification-pass**.
