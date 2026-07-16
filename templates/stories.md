@@ -23,20 +23,21 @@
 **Complexity:** <S/M/L/XL>
 **Epic:** <E-ID> - <epic title>
 
-**Gherkin:**
-```gherkin
-Feature: <feature title>
+**Scenarios:**
 
-  Scenario: <happy path title>
-    Given <precondition>
-    When <action>
-    Then <expected outcome>
+- **<happy path title>** (happy)
+  - Setup: <precondition>
+  - Steps:
+    1. <action step>
+  - Assertions:
+    - <expected outcome>
 
-  Scenario: <edge case title>
-    Given <precondition>
-    When <action>
-    Then <expected outcome>
-```
+- **<edge case title>** (edge)
+  - Setup: <precondition>
+  - Steps:
+    1. <action step>
+  - Assertions:
+    - <expected outcome>
 
 **Acceptance Criteria:**
 - [ ] <criterion>

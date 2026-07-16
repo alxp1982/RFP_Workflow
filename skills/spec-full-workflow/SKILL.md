@@ -29,6 +29,9 @@ Optional:
 - Output targets:
   - PRD: `local-md` (default) | `google-sheets` | other MCP target
   - Stories: `local-md` (default) | `github` | `jira` | other MCP target
+- Delegate research stages to sub-agents: `auto` (default) | `always` | `never` — see
+  **Subagent delegation** below. `auto` uses a subagent when the tool supports one
+  (e.g. Claude Code's `Agent` tool), else runs inline.
 
 ## Execution plan (planning-style summary) — do this first
 Before **`spec-normalize-input`**, emit a **Planning summary** for the user: same spirit as
@@ -56,6 +59,18 @@ You are an orchestrating product+delivery agent.
    the human clears the **checkpoint** that guards that stage (see **Checkpoint map**
    below). **Do not** “fast forward” past a checkpoint in a single assistant turn unless
    the user explicitly instructs you to (e.g. “approve all checkpoints and run end-to-end”).
+0a. **Subagent delegation (optional):** Two stages are checkpoint-free (or become
+   checkpoint-free after an initial inline step) and are the ones most likely to bloat
+   this conversation with raw research/content — `spec-architecture-stack` (whole skill)
+   and `spec-notion-input` (its fetch step only, per that skill's own **Delegation**
+   section). Unless the user set the delegation input to `never`, run these via the
+   tool's subagent mechanism (e.g. Claude Code's `Agent` tool) when available: instruct
+   the subagent to write its target output file directly and return only a short
+   summary, then read that file yourself when building the next checkpoint. **Never**
+   delegate a stage or step that owns a mid-execution checkpoint (Notion's search
+   disambiguation, `spec-sync-trackers`'s G2 per-story loop, or the infographics model
+   choice inside `spec-draft-prd`). With no subagent capability, or `never`, run every
+   stage inline exactly as documented — no behavior change.
 0b. **Notion input:** If the user supplied **Notion page URL(s)** and/or a **search string**,
    run **`spec-notion-input`** (`skills/spec-notion-input/SKILL.md`) with `mode: initial`
    **before** **`spec-normalize-input`**. Pass `#file:outputs/notion-input.md` into
@@ -75,11 +90,11 @@ You are an orchestrating product+delivery agent.
 
 | After skill(s) | Checkpoint | Human must clear before you… |
 |----------------|------------|------------------------------|
-| `spec-notion-input` (search only, 2+ hits) | **N** (optional) | Fetch selected pages — user picks from disambiguation table |
+| `spec-notion-input` (search only, 2+ hits) | **N** (optional) | Fetch selected pages — user picks from disambiguation table (always inline; the fetch itself may run via subagent afterward — see that skill's **Delegation** section) |
 | `spec-normalize-input` + `spec-clarification-pass` | **A** | Start **`spec-draft-prd`** (and infographics per **B**) |
 | (just before heavy PRD draft / infographics) | **B** | Proceed with infographic generation inside draft PRD |
 | `spec-draft-prd` [+ optional `spec-refine-prd`] | **C** | Start **`spec-architecture-stack`** |
-| `spec-architecture-stack` | **D** | Update **`outputs/architecture.md`** with the chosen stack (see checkpoint text), then start **`spec-task-breakdown`** |
+| `spec-architecture-stack` (may run via subagent — see that skill's **Delegation** section) | **D** | Update **`outputs/architecture.md`** with the chosen stack (see checkpoint text), then start **`spec-task-breakdown`** |
 | `spec-task-breakdown` | **E** | Start **`spec-user-stories`** |
 | `spec-user-stories` (incl. `stories.spec.yaml`, digest refresh) | **F** | Run **`spec-bootstrap-repo`** (writes `outputs/repo-kit/`) |
 | (ready to export) | **G** | Start **`spec-sync-trackers`** (after export preview table is approved) |

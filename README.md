@@ -273,7 +273,7 @@ Paste raw client requirements and run the skills in sequence to produce:
 | Refined PRD (after answering questions) | `outputs/prd.md` (overwrite) |
 | Architecture & technology stack options | `outputs/architecture.md` |
 | Technical task decomposition | `outputs/task-breakdown.md` |
-| Gherkin stories with acceptance criteria | `outputs/stories.md` |
+| Structured acceptance stories | `outputs/stories.md` |
 | Machine-readable stories spec | `outputs/stories.spec.yaml` |
 | **New product repo kit** (spec-driven baseline: `spec/`, `AGENTS.md`, `CLAUDE.md`, `.cursor/`, `.claude/`, `.github/copilot-instructions.md`) | `outputs/repo-kit/` (copy tree to a fresh repo root) |
 | Export to Google Sheets / GitHub / Jira | via `spec-sync-trackers` skill |
@@ -312,7 +312,7 @@ spec-architecture-stack -> architecture memo + stack comparison + selection
 spec-task-breakdown   -> Epic -> Feature -> Story -> Task hierarchy
        |
        v
-spec-user-stories     -> Gherkin-style stories + acceptance criteria
+spec-user-stories     -> structured stories + acceptance criteria
        |
        v
 spec-bootstrap-repo   -> portable `outputs/repo-kit/` for a new product git repo
@@ -385,7 +385,7 @@ skills/
   spec-refine-prd/SKILL.md              Update PRD after clarification answers
   spec-architecture-stack/SKILL.md      Architecture + stack options before breakdown
   spec-task-breakdown/SKILL.md          Epic → Feature → Story → Task plan
-  spec-user-stories/SKILL.md            Gherkin-style acceptance stories
+  spec-user-stories/SKILL.md            Structured acceptance stories
   spec-bootstrap-repo/SKILL.md          Materialize `outputs/repo-kit/` for a new repo
   spec-sync-trackers/SKILL.md           Push artifacts to Sheets / GitHub / Jira
 
@@ -423,6 +423,7 @@ examples/
 - **Fixed hierarchy.** PRD → architecture & stack → Epic → Feature → Story → Task — every time.
 - **Traceable.** Every artifact carries `assumptions` and `open_questions`.
 - **Notion input.** Optional **`spec-notion-input`** fetches meeting notes via MCP (URLs or search) for initial runs and updates.
+- **Subagent-friendly (optional).** In tools with sub-agent/background-task support (e.g. Claude Code's **`Agent`** tool), the Notion-fetch step and **`spec-architecture-stack`** can run in an isolated subagent to keep raw research out of the main conversation; falls back to inline execution otherwise.
 - **Incremental updates.** `spec-update` merges late-arriving information without restarting from scratch.
 - **Export review gates.** Checkpoint **G** shows epic/story summary tables; **G2** reviews each story before Jira/GitHub create.
 - **Flexible output targets.** Default local markdown; export skills handle

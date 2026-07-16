@@ -16,19 +16,20 @@ stories:
     scenarios:
       - name: Successful SSO
         kind: happy
-        given:
+        setup:
           - Valid SSO session
-        when:
-          - User lands on login and completes IdP flow
-        then:
+        steps:
+          - User lands on login page
+          - User completes IdP flow
+        assertions:
           - User sees dashboard
       - name: IdP timeout
         kind: edge
-        given:
+        setup:
           - IdP returns error
-        when:
+        steps:
           - User attempts login
-        then:
+        assertions:
           - User sees actionable error
     acceptance_criteria:
       - SSO completes under 10s p95
@@ -45,11 +46,11 @@ stories:
     scenarios:
       - name: Profile loads
         kind: happy
-        given:
+        setup:
           - Authenticated user
-        when:
+        steps:
           - User opens profile
-        then:
+        assertions:
           - Fields render from HR source
     acceptance_criteria:
       - PII masked in logs

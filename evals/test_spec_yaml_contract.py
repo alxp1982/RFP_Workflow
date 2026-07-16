@@ -99,7 +99,7 @@ def validate_stories_spec(data: dict[str, Any], *, path_label: str) -> None:
             assert sc.get("name"), f"{path_label}: scenario needs name"
             kind = sc.get("kind")
             assert kind in SCENARIO_KIND, f"{path_label}: scenario kind must be happy|edge"
-            for key in ("given", "when", "then"):
+            for key in ("setup", "steps", "assertions"):
                 v = sc.get(key)
                 assert isinstance(v, list) and v, f"{path_label}: scenario {sc.get('name')} needs {key} list"
 

@@ -11,7 +11,7 @@ run. Treat it as authoritative for **what** to build until intentionally changed
 | `stories.spec.yaml` | Machine-readable stories companion (optional but recommended). |
 | `architecture.md` | High-level architecture and technology stack decision (when produced upstream). |
 | `prd.md` | Full product requirements document. |
-| `stories.md` | User stories, Gherkin, acceptance criteria, Story IDs. |
+| `stories.md` | User stories, structured scenarios (setup/steps/assertions), acceptance criteria, Story IDs. |
 | `task-breakdown.md` | Epic → Feature → Story → Task hierarchy and dependencies. |
 | `clarifications.md` | Clarification questions and assumptions from intake. |
 | `planning-sheet.csv` | Planning / sizing export. |

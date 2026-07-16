@@ -128,9 +128,9 @@ this doc together.
 |-------|------|----------|
 | `name` | string | yes |
 | `kind` | `happy` or `edge` | yes |
-| `given` | list of string | yes |
-| `when` | list of string | yes |
-| `then` | list of string | yes |
+| `setup` | list of string | yes |
+| `steps` | list of string (ordered) | yes |
+| `assertions` | list of string | yes |
 
 ---
 

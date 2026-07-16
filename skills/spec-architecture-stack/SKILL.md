@@ -54,6 +54,26 @@ low-level design spec.
    the orchestrator to fill after the user chooses an option letter/name).
 7. **Traceability** — Reference **FR-** / **NFR-** ids where architecture choices address them.
 
+## Delegation (optional)
+
+Steps 1–7 and the output write below are entirely **checkpoint-free** — human
+**checkpoint D** only happens afterward, in the orchestrator. In a tool that supports
+spawning an isolated subagent (e.g. Claude Code's `Agent` tool), the orchestrator may
+run this **whole skill** in one subagent call instead of inline:
+
+- The subagent reads **`outputs/prd.md`**, **`outputs/clarifications.md`**, and
+  **`outputs/prd.spec.yaml`** (if present) itself, then writes **`outputs/architecture.md`**
+  directly per this skill's own **Output format** section.
+- It returns to the orchestrator only a short summary — recommended option, one-line
+  comparison headline, confirmation the file was written — **not** the full file content
+  or its research trail.
+- The orchestrator then reads **`outputs/architecture.md`** itself (a small, finished
+  file) when building **checkpoint D**, instead of carrying the research/exploration
+  that produced it in its own context.
+
+If the tool has no subagent capability, run this skill inline exactly as written above —
+no behavior change.
+
 ## Output format
 
 Write **`outputs/architecture.md`** following **`templates/architecture.md`**.

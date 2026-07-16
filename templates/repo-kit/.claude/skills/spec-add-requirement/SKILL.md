@@ -13,7 +13,7 @@ and structured YAML so agents, CI, and importers never drift on IDs or scenarios
 ## When to use
 
 - New FR/NFR, revised wording, or removed scope in **`spec/prd.md`**.
-- New Story, changed Gherkin, or new acceptance criteria in **`spec/stories.md`**.
+- New Story, changed scenarios, or new acceptance criteria in **`spec/stories.md`**.
 - New or re-parented work in **`spec/task-breakdown.md`** (and **`spec/planning-sheet.csv`**
   if you maintain it).
 - After edits: refresh **`spec/digest.md`** and append **`spec/CHANGELOG.md`** (see
@@ -35,7 +35,7 @@ and structured YAML so agents, CI, and importers never drift on IDs or scenarios
 2. **Human-readable first** — Edit in order:
    - **`spec/prd.md`** — add/adjust FR/NFR sections; keep `## Assumptions` and
      `## Open Questions` honest.
-   - **`spec/stories.md`** — add/adjust stories and Gherkin; preserve **Story ID**
+   - **`spec/stories.md`** — add/adjust stories and scenarios; preserve **Story ID**
      scheme from **`spec/task-breakdown.md`**.
    - **`spec/task-breakdown.md`** — add Epic/Feature/Story/Task rows as needed; keep
      **Epic → Feature → Story → Task** naming.
@@ -46,7 +46,7 @@ and structured YAML so agents, CI, and importers never drift on IDs or scenarios
      summaries, and `prd_trace`-relevant fields; remove or mark deprecated entries if
      scope was cut (do not orphan ids referenced in stories).
    - **`spec/stories.spec.yaml`** — one story object per Story id in the breakdown;
-     align `prd_trace`, `scenarios` (`given` / `when` / `then` lists), and metadata with
+     align `prd_trace`, `scenarios` (`setup` / `steps` / `assertions` lists), and metadata with
      **`spec/stories.md`**.
 
 4. **Digest + changelog** — Update **`spec/digest.md`** (requirement index / epic map

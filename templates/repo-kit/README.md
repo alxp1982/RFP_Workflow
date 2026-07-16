@@ -40,7 +40,7 @@ own `skills/` pipeline; they only take effect in the new repo’s root.
 | `spec/CHANGELOG.md` | Baseline and **append-only** spec deltas for long sessions. |
 | `spec/architecture.md` | Architecture memo + stack options / selected stack (when present). |
 | `spec/prd.md` | Full PRD (human-readable). |
-| `spec/stories.md` | Gherkin stories + tracker metadata. |
+| `spec/stories.md` | Structured acceptance stories + tracker metadata. |
 | `spec/task-breakdown.md` | Epic → Feature → Story → Task plan. |
 | `spec/clarifications.md` | Clarification pass output. |
 | `spec/planning-sheet.csv` | Planning / sizing sheet. |

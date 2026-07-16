@@ -15,7 +15,7 @@ Optionally persist the preview in `outputs/export-manifest.md`.
 ## Jira issue structure
 - **Issue type:** Epic (for Epics), Story (for Stories)
 - **Summary:** `[<ID>] <title>`
-- **Description:** user story + acceptance criteria + gherkin
+- **Description:** user story + acceptance criteria + scenarios (setup/steps/assertions)
 - **Story Points:** S=1, M=3, L=5, XL=8
 - **Labels:** `spec-workflow`
 - **Epic Link:** parent Epic summary

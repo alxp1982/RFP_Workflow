@@ -11,7 +11,7 @@ truth** live under `spec/`. Prefer those files over chat memory.
 3. Load **only** the slices you need next:
    - **`spec/architecture.md`** — when present: high-level solution shape, stack options,
      and **`## Selected stack (locked)`** for implementation defaults.
-   - **`spec/stories.md`** — for acceptance / Gherkin and Story IDs.
+   - **`spec/stories.md`** — for acceptance scenarios (setup/steps/assertions) and Story IDs.
    - **`spec/prd.md`** — for FR/NFR detail, NFRs, and scope.
    - **`spec/task-breakdown.md`** — for dependencies and the Epic → Feature → Story → Task tree.
 4. Append **`spec/CHANGELOG.md`** (last ~20 lines) if the user references recent spec changes.

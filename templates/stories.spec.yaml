@@ -17,7 +17,7 @@ stories: []
 #   scenarios:
 #     - name: ""
 #       kind: happy
-#       given: []
-#       when: []
-#       then: []
+#       setup: []
+#       steps: []
+#       assertions: []
 #   acceptance_criteria: []

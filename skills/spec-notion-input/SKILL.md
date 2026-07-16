@@ -78,6 +78,24 @@ If search returns **0** pages, report that and ask for a different search string
 
 If search returns **1** page, proceed without pausing unless the title clearly mismatches the user's intent — then confirm once.
 
+## Delegation (optional)
+
+Steps 1–2 above **always run inline** in the orchestrating conversation — checkpoint
+**N** needs a live human reply mid-skill when search returns 2+ hits, and a subagent
+invoked with a single fire-and-forget prompt cannot pause to solicit that reply.
+
+Once the final page list is settled (explicit URLs with no search, or after the user
+answers the Step 2 disambiguation prompt), **Steps 3–5** below (MCP fetch, write
+`outputs/notion-input.md`, handoff summary) are checkpoint-free and are exactly where
+raw multi-page content bloat happens. In a tool that supports spawning an isolated
+subagent (e.g. Claude Code's `Agent` tool), the orchestrator may delegate just those
+steps: the subagent fetches the resolved pages, writes `outputs/notion-input.md`
+directly per Step 4's shape, and returns only the Step 5 handoff summary — the parent
+conversation never needs the raw fetched page content in its own context.
+
+If the tool has no subagent capability, run Steps 3–5 inline exactly as written below —
+no behavior change.
+
 ### Step 3 — Fetch page content via Notion MCP
 
 For each selected page:

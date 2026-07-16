@@ -17,7 +17,7 @@ Optionally persist the preview in `outputs/export-manifest.md`.
 - **Body:**
   - User Story line
   - Acceptance Criteria (checkboxes)
-  - Gherkin block
+  - Scenarios (setup/steps/assertions)
   - Metadata (PRD trace, complexity, epic)
 - **Labels:** `story`, `<epic-id>`
 - **Project:** target GitHub Project board

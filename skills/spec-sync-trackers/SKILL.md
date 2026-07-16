@@ -24,7 +24,7 @@ human pause; this section defines the **data you must assemble**.
 
 1. Parse **Epics** from `outputs/task-breakdown.md` (type Epic, ids `E*`).
 2. Parse **Stories** from `outputs/stories.md` (ids `S*.*.*`), including title,
-   user story line, acceptance criteria, Gherkin block, complexity, PRD trace, parent epic.
+   user story line, acceptance criteria, scenarios (setup/steps/assertions), complexity, PRD trace, parent epic.
 3. Emit two markdown tables (in chat and optionally `outputs/export-manifest.md`):
 
 **Epics to create**
@@ -125,8 +125,8 @@ Create a GitHub Issue with:
     ## Acceptance Criteria
     <acceptance criteria bullets>
 
-    ## Gherkin
-    <gherkin block>
+    ## Scenarios
+    <setup/steps/assertions block>
 
     ## Metadata
     PRD Trace: <trace>
@@ -164,7 +164,7 @@ After **G2 approve** for one story only:
 ```
 Create a Jira Story linked to its Epic with:
   Summary: [<Story ID>] <story title>
-  Description: user story + acceptance criteria + gherkin
+  Description: user story + acceptance criteria + scenarios (setup/steps/assertions)
   Story Points: S=1, M=3, L=5, XL=8
   Labels: spec-workflow
 ```
