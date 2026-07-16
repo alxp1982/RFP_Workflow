@@ -423,7 +423,6 @@ examples/
 - **Fixed hierarchy.** PRD → architecture & stack → Epic → Feature → Story → Task — every time.
 - **Traceable.** Every artifact carries `assumptions` and `open_questions`.
 - **Notion input.** Optional **`spec-notion-input`** fetches meeting notes via MCP (URLs or search) for initial runs and updates.
-- **Subagent-friendly (optional).** In tools with sub-agent/background-task support (e.g. Claude Code's **`Agent`** tool), the Notion-fetch step and **`spec-architecture-stack`** can run in an isolated subagent to keep raw research out of the main conversation; falls back to inline execution otherwise.
 - **Incremental updates.** `spec-update` merges late-arriving information without restarting from scratch.
 - **Export review gates.** Checkpoint **G** shows epic/story summary tables; **G2** reviews each story before Jira/GitHub create.
 - **Flexible output targets.** Default local markdown; export skills handle
